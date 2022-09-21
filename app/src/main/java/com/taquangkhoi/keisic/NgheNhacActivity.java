@@ -56,7 +56,7 @@ public class NgheNhacActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    tv_current_duration.setText(String.format("%02d:%02d", progress / 1000 / 60, progress / 1000 % 60));
+                    tv_current_duration.setText(GetCurrentDuration());
                     mediaPlayer.seekTo(progress);
                 }
             }
@@ -73,7 +73,13 @@ public class NgheNhacActivity extends AppCompatActivity {
         });
     }
 
-
+    private String GetCurrentDuration() {
+        int currentDuration = mediaPlayer.getCurrentPosition();
+        int MINUTE_CURRENT_DURATION = currentDuration / 1000 / 60;
+        int SECOND_CURRENT_DURATION = currentDuration / 1000 % 60;
+        return String.format("%02d:%02d",
+                MINUTE_CURRENT_DURATION, SECOND_CURRENT_DURATION);
+    }
 
     private void Control() {
         iv_play_stop = findViewById(R.id.iv_play_stop);
