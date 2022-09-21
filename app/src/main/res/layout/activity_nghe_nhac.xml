@@ -26,11 +26,11 @@
 
     <SeekBar
         android:id="@+id/sb_song"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/iv_play_stop"
-        app:layout_constraintEnd_toStartOf="@id/tv_duration"
-        app:layout_constraintStart_toEndOf="@+id/tv_current_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
 
     <TextView
@@ -40,7 +40,8 @@
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@id/iv_previous"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
+        app:layout_constraintTop_toBottomOf="@+id/sb_song"
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/tv_duration"
@@ -49,7 +50,8 @@
         android:text="99:99"
         app:layout_constraintBottom_toTopOf="@id/iv_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintTop_toBottomOf="@+id/sb_song" />
 
     <TextView
         android:id="@+id/tv_song_name"
@@ -59,7 +61,8 @@
         app:layout_constraintBottom_toTopOf="@+id/sb_song"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
+        app:layout_constraintTop_toBottomOf="@id/iv_song_img"
+        app:layout_constraintVertical_bias="0.2"/>
 
     <ImageView
         android:id="@+id/iv_play_stop"
