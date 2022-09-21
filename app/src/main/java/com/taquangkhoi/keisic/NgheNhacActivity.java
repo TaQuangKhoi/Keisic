@@ -24,18 +24,14 @@ public class NgheNhacActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nghe_nhac);
 
         Control();
-        ThemNhac();
         Events();
     }
 
-    private void ThemNhac() {
-    }
-
-
+    // Chạy các sự kiện
     private void Events() {
         RunSeekBar();
         SetTotalDuration();
-        RealTimeCurrentDuration();
+        RealTimeUpdate();
         iv_play_stop.setOnClickListener(v -> {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
@@ -45,6 +41,19 @@ public class NgheNhacActivity extends AppCompatActivity {
                 iv_play_stop.setImageResource(R.drawable.ic_pause_24);
             }
         });
+    }
+
+    // Chứa các ánh xạ
+    private void Control() {
+        iv_play_stop = findViewById(R.id.iv_play_stop);
+        iv_next = findViewById(R.id.iv_next);
+        iv_previous = findViewById(R.id.iv_previous);
+        sb_song = findViewById(R.id.sb_song);
+        tv_current_duration = findViewById(R.id.tv_current_duration);
+        tv_duration = findViewById(R.id.tv_duration);
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.rhymastic_y6u);
+
     }
 
     private void SetTotalDuration() {
@@ -75,35 +84,25 @@ public class NgheNhacActivity extends AppCompatActivity {
         });
     }
 
-    private String GetCurrentDuration() {
-        int currentDuration = mediaPlayer.getCurrentPosition();
-        int MINUTE_CURRENT_DURATION = currentDuration / 1000 / 60;
-        int SECOND_CURRENT_DURATION = currentDuration / 1000 % 60;
-        return String.format("%02d:%02d",
-                MINUTE_CURRENT_DURATION, SECOND_CURRENT_DURATION);
-    }
-
-    private void Control() {
-        iv_play_stop = findViewById(R.id.iv_play_stop);
-        iv_next = findViewById(R.id.iv_next);
-        iv_previous = findViewById(R.id.iv_previous);
-        sb_song = findViewById(R.id.sb_song);
-        tv_current_duration = findViewById(R.id.tv_current_duration);
-        tv_duration = findViewById(R.id.tv_duration);
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.rhymastic_y6u);
-
-    }
-
-    private void RealTimeCurrentDuration() {
+    // Cập nhật thời gian thực TextView Current Duration và progress của SeekBar
+    private void RealTimeUpdate() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 tv_current_duration.setText(GetCurrentDuration());
                 sb_song.setProgress(mediaPlayer.getCurrentPosition());
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 100);
             }
         }, 100);
+    }
+
+    // Lấy giờ dạng String
+    private String GetCurrentDuration() {
+        int currentDuration = mediaPlayer.getCurrentPosition();
+        int MINUTE_CURRENT_DURATION = currentDuration / 1000 / 60;
+        int SECOND_CURRENT_DURATION = currentDuration / 1000 % 60;
+        return String.format("%02d:%02d",
+                MINUTE_CURRENT_DURATION, SECOND_CURRENT_DURATION);
     }
 }
