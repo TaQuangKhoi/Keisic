@@ -28,13 +28,13 @@
         android:id="@+id/sb_song"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/iv_play"
-        app:layout_constraintEnd_toStartOf="@id/duration"
-        app:layout_constraintStart_toEndOf="@+id/current_duration"
+        app:layout_constraintBottom_toTopOf="@id/iv_play_stop"
+        app:layout_constraintEnd_toStartOf="@id/tv_duration"
+        app:layout_constraintStart_toEndOf="@+id/tv_current_duration"
         app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
 
     <TextView
-        android:id="@+id/current_duration"
+        android:id="@+id/tv_current_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
 
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/tv_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="99:99"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_song_img" />
 
     <ImageView
-        android:id="@+id/iv_play"
+        android:id="@+id/iv_play_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +78,7 @@
         app:srcCompat="@drawable/ic_skip_next_24"
         app:layout_constraintTop_toBottomOf="@id/app_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_play"
+        app:layout_constraintStart_toEndOf="@id/iv_play_stop"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@id/app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iv_play"/>
+        app:layout_constraintEnd_toStartOf="@id/iv_play_stop"/>
 
 
 
