@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@id/iv_previous"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/sb_song"
         app:layout_constraintTop_toBottomOf="@+id/sb_song"
         app:layout_constraintVertical_bias="0.2" />
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -33,7 +34,8 @@ public class NgheNhacActivity extends AppCompatActivity {
 
     private void Events() {
         RunSeekBar();
-        SetDuration();
+        SetTotalDuration();
+        RealTimeCurrentDuration();
         iv_play_stop.setOnClickListener(v -> {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
@@ -45,7 +47,7 @@ public class NgheNhacActivity extends AppCompatActivity {
         });
     }
 
-    private void SetDuration() {
+    private void SetTotalDuration() {
         int duration = mediaPlayer.getDuration();
         tv_duration.setText(String.format("%02d:%02d", duration / 1000 / 60, duration / 1000 % 60));
     }
@@ -93,5 +95,14 @@ public class NgheNhacActivity extends AppCompatActivity {
 
     }
 
-
+    private void RealTimeCurrentDuration() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tv_current_duration.setText(GetCurrentDuration());
+                handler.postDelayed(this, 500);
+            }
+        }, 100);
+    }
 }
