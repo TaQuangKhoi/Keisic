@@ -7,7 +7,7 @@
     tools:context=".NgheNhacActivity">
 
     <TextView
-        android:id="@+id/app-name"
+        android:id="@+id/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -19,22 +19,38 @@
         android:id="@+id/iv_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_play_24"
-        app:layout_constraintTop_toBottomOf="@id/app-name"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_next"
+        app:layout_constraintStart_toEndOf="@id/iv_previous"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        app:srcCompat="@drawable/ic_play_24" />
 
     <ImageView
         android:id="@+id/iv_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_pause_24"
-        app:layout_constraintTop_toBottomOf="@id/app-name"
-        app:layout_constraintStart_toEndOf="@id/iv_play" />
+        app:srcCompat="@drawable/ic_skip_next_24"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_play"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_skip_previous_24"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_play"/>
 
     <SeekBar
         android:id="@+id/sb_song"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/app-name"/>
+        app:layout_constraintBottom_toTopOf="@id/iv_play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
