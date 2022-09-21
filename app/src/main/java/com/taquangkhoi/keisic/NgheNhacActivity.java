@@ -101,6 +101,7 @@ public class NgheNhacActivity extends AppCompatActivity {
             @Override
             public void run() {
                 tv_current_duration.setText(GetCurrentDuration());
+                sb_song.setProgress(mediaPlayer.getCurrentPosition());
                 handler.postDelayed(this, 500);
             }
         }, 100);
