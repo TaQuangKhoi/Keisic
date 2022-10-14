@@ -105,4 +105,9 @@ public class NgheNhacActivity extends AppCompatActivity {
         return String.format("%02d:%02d",
                 MINUTE_CURRENT_DURATION, SECOND_CURRENT_DURATION);
     }
+
+    private String GetTitleOfSongInFile(){
+        Path file = "android.resource://" + getPackageName() + "/" + R.raw.video_rhymastic_y6u;
+        BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+    }
 }
