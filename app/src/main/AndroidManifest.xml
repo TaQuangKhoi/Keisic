@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.taquangkhoi.keisic">
+    <!-- Service for get Notofications -->
+    <service
+        android:name=".NotificationService"
+        android:enabled="true"
+        android:exported="true"
+        android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+        <intent-filter>
+            <action android:name="android.service.notification.NotificationListenerService" />
+        </intent-filter>
+
+        <meta-data
+            android:name="android.service.notification"
+            android:resource="@xml/notification_listener" />
+    </service>
 
     <application
         android:allowBackup="true"
@@ -13,6 +27,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keisic"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Keisic.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".VideoActivity"
             android:exported="false" />
