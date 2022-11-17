@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityOld extends AppCompatActivity {
     Button btn_nghe_nhac;
     Button btn_xem_video;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_old);
 
         AnhXa();
         Chay();
@@ -22,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
     private void Chay() {
         btn_nghe_nhac.setOnClickListener(v -> {
             // Chuyển sang màn hình nghe nhạc
-            Intent intent = new Intent(MainActivity.this, NgheNhacActivity.class);
+            Intent intent = new Intent(MainActivityOld.this, NgheNhacActivity.class);
             startActivity(intent);
         });
         btn_xem_video.setOnClickListener(v -> {
             // Chuyển sang màn hình xem video
-            Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+            Intent intent = new Intent(MainActivityOld.this, VideoActivity.class);
             startActivity(intent);
         });
     }
