@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+
 public class NgheNhacActivity extends AppCompatActivity {
     ImageView iv_play_stop;
     ImageView iv_next;
@@ -107,7 +110,8 @@ public class NgheNhacActivity extends AppCompatActivity {
     }
 
     private String GetTitleOfSongInFile(){
-        Path file = "android.resource://" + getPackageName() + "/" + R.raw.video_rhymastic_y6u;
-        BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+//        Path file = "android.resource://" + getPackageName() + "/" + R.raw.video_rhymastic_y6u;
+//        BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+        return "";
     }
 }
