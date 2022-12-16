@@ -45,8 +45,5 @@
         <activity
             android:name=".VideoActivity"
             android:exported="false" />
-        <activity
-            android:name=".NgheNhacActivity"
-            android:exported="false" />
     </application>
 </manifest>
