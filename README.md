@@ -19,4 +19,13 @@ Theo dõi thói quen nghe nhạc, phát nhạc, đồng bộ vô hạn lên đâ
 
 ### SQLite
 
+## Các API, lớp được sử dụng
+- NotificationListenerService (class - service)
+- PreferenceScreen (xml)
+- ViewModel (class)
+- LiveData (class)
+- Room (class).
+- Firebase (class)
+- Last.fm API (class)
+- 
 
