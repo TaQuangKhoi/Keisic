@@ -1,10 +1,10 @@
 package com.taquangkhoi.keisic;
 
 public class Song {
-    private String name;
-    private String artist;
-    private String path;
-    private int duration;
+    private final String name;
+    private final String artist;
+    private final String path;
+    private final int duration;
 
     public Song(String name, String artist, String path, int duration) {
         this.name = name;

@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMain.toolbar);
+        setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
+
+        // nút Floating Action Button
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,16 +38,25 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        // Thiết lập cho NavigationUI
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
+
+        // Dùng để quản lý nav trong NavHost
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
+        // Gán AppBarConfiguration cho NavigationUI
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
+        // Gán NavigationView, NavController cho NavigationUI
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
@@ -59,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
