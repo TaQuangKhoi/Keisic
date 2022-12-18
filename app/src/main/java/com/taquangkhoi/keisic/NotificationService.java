@@ -7,20 +7,30 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
 public class NotificationService extends NotificationListenerService {
     Context context;
     HomeViewModel homeViewModel;
     private static final String TAG = "NotificationService";
+    static MyListener myListener;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
         homeViewModel = new HomeViewModel();
-        Log.i(TAG, "onCreate: ");
+        Toast.makeText(this, "Notification Service Created", Toast.LENGTH_LONG).show();
+        Log.i(TAG, "onCreate Notification Service");
+    }
+
+    @Override
+    public void onListenerConnected() {
+        super.onListenerConnected();
+        Toast.makeText(this, "Notification Service Connected", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -30,6 +40,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        Toast.makeText(context, "Notification Posted", Toast.LENGTH_LONG).show();
         super.onNotificationPosted(sbn);
         String pack = sbn.getPackageName();
 
@@ -38,9 +49,7 @@ public class NotificationService extends NotificationListenerService {
         String text = extras.getCharSequence("android.text").toString();
         homeViewModel.setText(text);
 
-        Log.i("Package", pack);
-        Log.i("Title", title);
-        Log.i("Text", text);
+        Log.i(TAG, "onNotificationPosted: " + pack + " " + title + " " + text);
 
         Intent msgrcv = new Intent("Msg");
         msgrcv.putExtra("package", pack);
@@ -48,11 +57,20 @@ public class NotificationService extends NotificationListenerService {
         msgrcv.putExtra("text", text);
 
         sendBroadcast(msgrcv);
+
+        if (myListener != null) {
+            myListener.setValue(pack);
+        }
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
+        Toast.makeText(context, "Notification Removed", Toast.LENGTH_LONG).show();
         Log.i("Msg", "Notification Removed");
+    }
+
+    public void setListener(MyListener myListener) {
+        NotificationService.myListener = myListener;
     }
 }

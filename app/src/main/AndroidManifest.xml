@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Service for get Notofications -->
     <!--    <service-->
@@ -36,7 +36,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_name"
             android:theme="@style/Theme.Keisic.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,6 +49,7 @@
                 android:value="" />
         </activity>
 
+        <service android:name=".services.JavaService" />
         <service
             android:name=".NotificationService"
             android:exported="true"
@@ -57,13 +58,6 @@
             <intent-filter>
                 <action android:name="android.service.myNotification.NotificationListenerService" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.service.myNotification.default_filter_types"
-                android:value="conversations|alerting"></meta-data>
-            <meta-data
-                android:name="android.service.myNotification.disabled_filter_types"
-                android:value="ongoing|silent"></meta-data>
         </service>
         <!--        <receiver android:name="android.notifications.IncomingSms">-->
         <!--            <intent-filter>-->
