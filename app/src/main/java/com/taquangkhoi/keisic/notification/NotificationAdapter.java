@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class NotificationAdapter extends ArrayAdapter<Notification> {
+public class NotificationAdapter extends ArrayAdapter<MyNotification> {
     // khai báo thuộc tính để có thể truy cập mọi nơi trong class
     private Context context; // Trà về Activity mà ListView hiển thị - this
     private int resource; // loại layout cần được sử dụng

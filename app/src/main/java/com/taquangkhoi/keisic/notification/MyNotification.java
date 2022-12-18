@@ -1,11 +1,11 @@
 package com.taquangkhoi.keisic.notification;
 
-public class Notification {
+public class MyNotification {
     private String title;
     private String content;
     private String time;
 
-    public Notification(String title, String content, String time) {
+    public MyNotification(String title, String content, String time) {
         this.title = title;
         this.content = content;
         this.time = time;

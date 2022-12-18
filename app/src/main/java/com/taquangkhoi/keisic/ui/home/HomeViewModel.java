@@ -1,30 +1,27 @@
 package com.taquangkhoi.keisic.ui.home;
 
-import android.widget.ArrayAdapter;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.taquangkhoi.keisic.notification.Notification;
-import com.taquangkhoi.keisic.notification.NotificationAdapter;
+import com.taquangkhoi.keisic.notification.MyNotification;
 
 import java.util.ArrayList;
 
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
-    private ArrayList<Notification> notifications;
+    private ArrayList<MyNotification> myNotifications;
     public final MutableLiveData<Integer> count;
 
     public HomeViewModel() {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
-        notifications = new ArrayList<>();
+        myNotifications = new ArrayList<>();
 
 
-        notifications.add(new Notification("1", "1", "1"));
-        notifications.add(new Notification("2", "2", "2"));
+        myNotifications.add(new MyNotification("1", "1", "1"));
+        myNotifications.add(new MyNotification("2", "2", "2"));
         mText.setValue("This is home fragment " + count.getValue());
         count.setValue(0);
     }
@@ -46,14 +43,14 @@ public class HomeViewModel extends ViewModel {
         this.count.setValue(count);
     }
 
-    public ArrayList<Notification> getNotifications() {
-        return notifications;
+    public ArrayList<MyNotification> getNotifications() {
+        return myNotifications;
     }
 
     public ArrayList<String> getNotificationsString() {
         ArrayList<String> strings = new ArrayList<>();
-        for (Notification notification : notifications) {
-            strings.add(notification.getTitle());
+        for (MyNotification myNotification : myNotifications) {
+            strings.add(myNotification.getTitle());
         }
         return strings;
     }

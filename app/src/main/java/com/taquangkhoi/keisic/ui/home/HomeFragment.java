@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
-import com.taquangkhoi.keisic.notification.Notification;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,9 +48,9 @@ public class HomeFragment extends Fragment {
 
         // Lấy dữ liệu từ ViewModel
 //        homeViewModel.getAdapter().observe(getViewLifecycleOwner(), listView::setAdapter);
-        Timer timer = new Timer();
-        TimerTask task = new MyTask();
-        timer.schedule(task, 1000, 1000);
+//        Timer timer = new Timer();
+//        TimerTask task = new MyTask();
+//        timer.schedule(task, 1000, 1000);
 
         return root;
     }
