@@ -57,27 +57,29 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         Intent intentTestService = new Intent(MainActivity.this, NotificationService.class);
         //startService(intentTestService); // sau khi nhấn nút thì sẽ chạy service tại onCreate về sau
         // thử nghiệm với service NotificationService
-//        Intent intentTest = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-//        startActivity(intentTest);
+
+        // Hiện trang cài đặt Device and app notifications
+        Intent intentTest = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+        startActivity(intentTest);
 
         //startService(intentService);
 
         //request notification permission
-        //createNotificationChannel();
+        createNotificationChannel();
 
         // Create an explicit intent for an Activity in your app
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 //
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_launcher_background)
-//                .setContentTitle("textTitle")
-//                .setContentText("textContent")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                // Set the intent that will fire when the user taps the notification
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("textTitle")
+                .setContentText("textContent")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
 
         // nút Floating Action Button
@@ -85,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements MyListener {
             @Override
             public void onClick(View view) {
                 // push a notification to system
-//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
-//
-//
-//                // notificationId is a unique int for each notification that you must define
-//                notificationManager.notify(0, builder.build());
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+
+
+                // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(0, builder.build());
                 Log.d("MainActivity", "onClick: notification pushed");
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
