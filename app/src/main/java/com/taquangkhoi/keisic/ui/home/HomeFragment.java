@@ -45,13 +45,6 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-
-        // Lấy dữ liệu từ ViewModel
-//        homeViewModel.getAdapter().observe(getViewLifecycleOwner(), listView::setAdapter);
-//        Timer timer = new Timer();
-//        TimerTask task = new MyTask();
-//        timer.schedule(task, 1000, 1000);
-
         return root;
     }
 

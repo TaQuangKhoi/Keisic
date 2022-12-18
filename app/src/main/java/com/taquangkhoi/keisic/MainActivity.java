@@ -1,5 +1,6 @@
 package com.taquangkhoi.keisic;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private ActivityMainBinding binding;
     private static final String TAG = "MainActivity";
     private NotificationReceiver nReceiver;
+    NotificationCompat.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,19 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         registerReceiver(nReceiver, filter);
 
         // reference to a Kotlin Class
-        Intent intentService = new Intent(this, NotificationService.class);
+//        Intent intentService = new Intent(this, NotificationService.class);
         //new NotificationService().setListener(this);
-        Intent intentTestService = new Intent(MainActivity.this, NotificationService.class);
+//        Intent intentTestService = new Intent(MainActivity.this, NotificationService.class);
         //startService(intentTestService); // sau khi nhấn nút thì sẽ chạy service tại onCreate về sau
         // thử nghiệm với service NotificationService
 
         // Hiện trang cài đặt Device and app notifications
-        Intent intentTest = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-        startActivity(intentTest);
+        // check Notification permission
+
+        if(checkSelfPermission(android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            startActivity(intent);
+        }
 
         //startService(intentService);
 
@@ -71,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+
+        builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("textTitle")
                 .setContentText("textContent")
@@ -82,22 +89,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 .setAutoCancel(true);
 
 
-        // nút Floating Action Button
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // push a notification to system
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
-
-
-                // notificationId is a unique int for each notification that you must define
-                notificationManager.notify(0, builder.build());
-                Log.d("MainActivity", "onClick: notification pushed");
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -118,6 +109,25 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         // Gán NavigationView, NavController cho NavigationUI
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    void addEvents() {
+        // nút Floating Action Button
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // push a notification to system
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+
+
+                // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(0, builder.build());
+                Log.d("MainActivity", "onClick: notification pushed");
+
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     private void createNotificationChannel() {
@@ -158,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     }
 
     class NotificationReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String temp = intent.getStringExtra("package");

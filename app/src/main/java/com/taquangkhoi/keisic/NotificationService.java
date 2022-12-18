@@ -41,26 +41,38 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Toast.makeText(context, "Notification Posted", Toast.LENGTH_LONG).show();
         super.onNotificationPosted(sbn);
         String pack = sbn.getPackageName();
+        Log.i(TAG, "Package name: " + pack);
+        if (pack.equals("com.spotify.music") ||
+                pack.equals("com.zing.mp3")
 
-        Bundle extras = sbn.getNotification().extras;
-        String title = extras.getString("android.title");
-        String text = extras.getCharSequence("android.text").toString();
-        homeViewModel.setText(text);
+        ) {
 
-        Log.i(TAG, "onNotificationPosted: " + pack + " " + title + " " + text);
 
-        Intent msgrcv = new Intent("Msg");
-        msgrcv.putExtra("package", pack);
-        msgrcv.putExtra("title", title);
-        msgrcv.putExtra("text", text);
+            Bundle extras = sbn.getNotification().extras;
+//        extras.keySet().forEach(key -> {
+//            Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
+//        });
+            // How to know type of var in java
 
-        sendBroadcast(msgrcv);
+            Log.i(TAG, "android.title: " + extras.getCharSequence("android.title"));
 
-        if (myListener != null) {
-            myListener.setValue(pack);
+            String text = extras.getCharSequence("android.text").toString();
+            homeViewModel.setText(text);
+
+            Log.i(TAG, "android.text: " + " " + text);
+
+            Intent msgrcv = new Intent("Msg");
+            msgrcv.putExtra("package", pack);
+            //msgrcv.putExtra("title", title);
+            msgrcv.putExtra("text", text);
+
+            sendBroadcast(msgrcv);
+
+            if (myListener != null) {
+                myListener.setValue(pack);
+            }
         }
     }
 
@@ -76,7 +88,6 @@ public class NotificationService extends NotificationListenerService {
     }
 
     class NotificationReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getStringExtra("command").equals("clearall")) {
