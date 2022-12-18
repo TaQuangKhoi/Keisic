@@ -1,6 +1,5 @@
 package com.taquangkhoi.keisic;
 
-import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.taquangkhoi.keisic.databinding.ActivityMainBinding;
 import com.taquangkhoi.keisic.services.MyListener;
+import com.taquangkhoi.keisic.ui.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements MyListener {
 
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         // Hiện trang cài đặt Device and app notifications
         // check Notification permission
 
-        if(checkSelfPermission(android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(intent);
+        if (checkSelfPermission(android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Chưa cho phép");
+//            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+//            startActivity(intent);
         }
 
         //startService(intentService);
@@ -87,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
-
 
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -150,6 +151,20 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        //add event to menu item
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Snackbar.make(binding.appBarMain.fab, "Opening Setting", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
         return true;
     }
 

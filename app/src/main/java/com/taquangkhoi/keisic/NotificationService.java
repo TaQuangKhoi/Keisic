@@ -45,7 +45,8 @@ public class NotificationService extends NotificationListenerService {
         String pack = sbn.getPackageName();
         Log.i(TAG, "Package name: " + pack);
         if (pack.equals("com.spotify.music") ||
-                pack.equals("com.zing.mp3")
+                pack.equals("com.zing.mp3") ||
+                pack.equals("ht.nct")
 
         ) {
 
