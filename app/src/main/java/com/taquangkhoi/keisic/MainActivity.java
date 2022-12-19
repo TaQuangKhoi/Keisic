@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         // menu should be considered as top level destinations.
         // Thiết lập cho NavigationUI
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_scrobbles, R.id.nav_loved, R.id.nav_friends)
                 .setOpenableLayout(drawer)
                 .build();
 
