@@ -1,12 +1,15 @@
 package com.taquangkhoi.keisic;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ public class NotificationService extends NotificationListenerService {
     HomeViewModel homeViewModel;
     private static final String TAG = "NotificationService";
     static MyListener myListener;
+    Song currentSong;
 
     @Override
     public void onCreate() {
@@ -26,6 +30,7 @@ public class NotificationService extends NotificationListenerService {
         homeViewModel = new HomeViewModel();
         Toast.makeText(this, "Notification Service Created", Toast.LENGTH_LONG).show();
         Log.i(TAG, "onCreate Notification Service");
+        currentSong = new Song();
     }
 
     @Override
@@ -42,7 +47,13 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
+
         String pack = sbn.getPackageName();
+
+        if (currentSong.isEmpty() == false) {
+            Log.i(TAG, "Current Song is " + currentSong.getFullInfor());
+        }
+
         Log.i(TAG, "Package name: " + pack);
         if (pack.equals("com.spotify.music") ||
                 pack.equals("com.zing.mp3") ||
@@ -50,29 +61,39 @@ public class NotificationService extends NotificationListenerService {
 
         ) {
 
-
             Bundle extras = sbn.getNotification().extras;
+
+            // Kiểm tra xem có bao nhiêu key trong extras
 //        extras.keySet().forEach(key -> {
 //            Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
 //        });
-            // How to know type of var in java
 
             Log.i(TAG, "android.title: " + extras.getCharSequence("android.title"));
+            Log.i(TAG, "android.text: " + extras.getCharSequence("android.text"));
 
-            String text = extras.getCharSequence("android.text").toString();
-            homeViewModel.setText(text);
+            if (currentSong.getName().isEmpty() != true
+                    && !currentSong.getArtist().isEmpty() != true
+                    && currentSong.getName().equals(extras.get("android.title"))
+                    && currentSong.getArtist().equals(extras.get("android.text"))
+            ) {
+                Log.i(TAG, "onNotificationPosted: Song is the same | " + currentSong.getFullInfor());
+                return;
+            } else {
+                Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
+                currentSong.setName(extras.get("android.title").toString());
+                currentSong.setArtist(extras.get("android.text").toString());
+                String text = extras.getCharSequence("android.text").toString();
 
-            Log.i(TAG, "android.text: " + " " + text);
+                Intent msgrcv = new Intent("Msg");
+                msgrcv.putExtra("package", pack);
+                //msgrcv.putExtra("title", title);
+                msgrcv.putExtra("text", text);
 
-            Intent msgrcv = new Intent("Msg");
-            msgrcv.putExtra("package", pack);
-            //msgrcv.putExtra("title", title);
-            msgrcv.putExtra("text", text);
+                sendBroadcast(msgrcv);
 
-            sendBroadcast(msgrcv);
-
-            if (myListener != null) {
-                myListener.setValue(pack);
+                if (myListener != null) {
+                    myListener.setValue(pack);
+                }
             }
         }
     }
@@ -112,4 +133,6 @@ public class NotificationService extends NotificationListenerService {
             }
         }
     }
+
+
 }

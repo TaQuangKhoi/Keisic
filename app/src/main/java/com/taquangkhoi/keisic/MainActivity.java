@@ -4,12 +4,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +52,14 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
 
+        if (isNotificationServiceEnabled(getApplicationContext())){
+            Log.i(TAG, "Notification service is enabled");
+        } else {
+            Log.i(TAG, "Notification service is not enabled");
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            startActivity(intent);
+        }
+
         // Tạo Receiver để nhận thông báo
         nReceiver = new NotificationReceiver();
         IntentFilter filter = new IntentFilter();
@@ -61,15 +72,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 //        Intent intentTestService = new Intent(MainActivity.this, NotificationService.class);
         //startService(intentTestService); // sau khi nhấn nút thì sẽ chạy service tại onCreate về sau
         // thử nghiệm với service NotificationService
-
-        // Hiện trang cài đặt Device and app notifications
-        // check Notification permission
-
-        if (checkSelfPermission(android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE) != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Chưa cho phép");
-//            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-//            startActivity(intent);
-        }
 
         //startService(intentService);
 
@@ -194,5 +196,29 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(nReceiver);
+    }
+
+    /**
+     * Check if the notification listener service is enabled.
+     *
+     * @param c getApplicationContext()
+     * @return
+     */
+    private boolean isNotificationServiceEnabled(Context c){
+        String pkgName = c.getPackageName();
+        final String flat = Settings.Secure.getString(c.getContentResolver(),
+                "enabled_notification_listeners");
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (int i = 0; i < names.length; i++) {
+                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
