@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
+import java.util.Date;
+
 public class NotificationService extends NotificationListenerService {
     Context context;
     HomeViewModel homeViewModel;
@@ -70,11 +72,17 @@ public class NotificationService extends NotificationListenerService {
 
             Log.i(TAG, "android.title: " + extras.getCharSequence("android.title"));
             Log.i(TAG, "android.text: " + extras.getCharSequence("android.text"));
+            String songNameExtras = extras.getCharSequence("android.title").toString();
+            String artistExtras = extras.getCharSequence("android.text").toString();
+            String currentName = currentSong.getName();
+            String currentArtist = currentSong.getArtist();
+            Log.i(TAG, "Current Title: " + currentSong.getName());
+            Log.i(TAG, "Current Artist: " + currentSong.getArtist());
 
-            if (currentSong.getName().isEmpty() != true
-                    && !currentSong.getArtist().isEmpty() != true
-                    && currentSong.getName().equals(extras.get("android.title"))
-                    && currentSong.getArtist().equals(extras.get("android.text"))
+            if (currentName.isEmpty() != true
+                    && currentArtist.isEmpty() != true
+                    && currentName.equals(songNameExtras)
+                    && currentArtist.equals(artistExtras)
             ) {
                 Log.i(TAG, "onNotificationPosted: Song is the same | " + currentSong.getFullInfor());
                 return;
@@ -82,6 +90,8 @@ public class NotificationService extends NotificationListenerService {
                 Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());
+                currentSong.setStartTime(new Date());
+
                 String text = extras.getCharSequence("android.text").toString();
 
                 Intent msgrcv = new Intent("Msg");
