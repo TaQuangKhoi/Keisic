@@ -18,12 +18,16 @@ import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
 import java.util.Date;
 
+import de.umass.lastfm.Caller;
+
 public class NotificationService extends NotificationListenerService {
     Context context;
     HomeViewModel homeViewModel;
     private static final String TAG = "NotificationService";
     static MyListener myListener;
     Song currentSong;
+    private static final String userAgent = "Keisic";
+    private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
 
     @Override
     public void onCreate() {
@@ -33,6 +37,8 @@ public class NotificationService extends NotificationListenerService {
         Toast.makeText(this, "Notification Service Created", Toast.LENGTH_LONG).show();
         Log.i(TAG, "onCreate Notification Service");
         currentSong = new Song();
+        Caller.getInstance().setUserAgent(userAgent);
+//        Caller.getInstance().setDebugMode(true);
     }
 
     @Override
