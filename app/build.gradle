@@ -76,4 +76,6 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:$room_version"
+
+    implementation 'de.u-mass:lastfm-java:0.1.2'
 }
