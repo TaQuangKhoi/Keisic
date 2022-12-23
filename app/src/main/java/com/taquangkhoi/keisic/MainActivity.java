@@ -21,6 +21,7 @@ import android.view.Menu;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
@@ -51,13 +52,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
 
-        if (isNotificationServiceEnabled(getApplicationContext())){
-            Log.i(TAG, "Notification service is enabled");
-        } else {
-            Log.i(TAG, "Notification service is not enabled");
-            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(intent);
-        }
+        checkNotificationPermission();
 
         // Tạo Receiver để nhận thông báo
         nReceiver = new NotificationReceiver();
@@ -111,6 +106,27 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         // Gán NavigationView, NavController cho NavigationUI
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    /**
+     * Ask user to grant notification permission
+     */
+    private void checkNotificationPermission() {
+        if (isNotificationServiceEnabled(getApplicationContext())){
+            Log.i(TAG, "Notification service is enabled");
+        } else {
+            Log.i(TAG, "Notification service is not enabled");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Notification Permission");
+            builder.setMessage("Please enable notification permission");
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(intent);
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+            builder.show();
+        }
     }
 
     void addEvents() {
