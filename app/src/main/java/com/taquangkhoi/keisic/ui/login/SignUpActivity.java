@@ -43,7 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
                 .get(LoginViewModel.class);
 
         final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
+        final EditText newPasswordEditText = binding.newPassword;
+        final EditText confirmPasswordEditText = binding.confirmPassword;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
@@ -58,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
                 if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                    newPasswordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
             }
         });
@@ -97,18 +98,36 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        newPasswordEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        newPasswordEditText.addTextChangedListener(afterTextChangedListener);
+        confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
+        newPasswordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if(confirmPasswordEditText.getText().toString().equals(newPasswordEditText.getText().toString())){
+                        loginViewModel.login(usernameEditText.getText().toString(),
+                                newPasswordEditText.getText().toString());
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), R.string.password_not_match, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return false;
+            }
+        });
+
+        confirmPasswordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                            newPasswordEditText.getText().toString());
                 }
                 return false;
             }
@@ -119,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        newPasswordEditText.getText().toString());
             }
         });
     }

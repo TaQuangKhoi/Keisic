@@ -73,13 +73,12 @@ public class NotificationService extends NotificationListenerService {
                 pack.equals("ht.nct")
 
         ) {
-
             Bundle extras = sbn.getNotification().extras;
 
             // Kiểm tra xem có bao nhiêu key trong extras
-//        extras.keySet().forEach(key -> {
-//            Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
-//        });
+//            extras.keySet().forEach(key -> {
+//                Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
+//            });
 
             Log.i(TAG, "android.title: " + extras.getCharSequence("android.title"));
             Log.i(TAG, "android.text: " + extras.getCharSequence("android.text"));
@@ -155,8 +154,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    private static boolean check(String[] arr, String toCheckValue)
-    {
+    private static boolean check(String[] arr, String toCheckValue) {
         // check if the specified element
         // is present in the array or not
         // using Linear Search method

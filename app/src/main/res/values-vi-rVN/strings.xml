@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Keisic</string>
     <string name="menu_chart">Biểu đồ</string>
+    <string name="welcome">Chào mừng</string>
+    <string name="invalid_password" translatable="false">Mật khẩu phải lớn hơn 5</string>
+    <string name="login_failed" translatable="false">Đăng nhập thất bại</string>
+    <string name="password_not_match">Mật khẩu không khớp</string>
+    <string name="action_sign_in_short">Đăng nhập</string>
+    <string name="action_sign_in">Đăng nhập hoặc đăng ký</string>
+    <string name="prompt_password">Mật khẩu</string>
+    <string name="prompt_email_or_username">Email hoặc Tên đăng nhập</string>
+    <string name="prompt_confirm_password">Xác nhận mật khẩu</string>
 </resources>
