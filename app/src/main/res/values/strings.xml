@@ -44,4 +44,6 @@
     <string name="title_activity_sign_up" translatable="false">SignUpActivity</string>
     <string name="prompt_email" translatable="false">Email</string>
     <string name="password_not_match">Passwords not match</string>
+    <string name="dont_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="already_have_an_account_log_in">Already have an account? Log in</string>
 </resources>

@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,8 +32,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private EditText usernameEditText;
-    private EditText passwordEditText;
+    private EditText usernameEditText, passwordEditText, confirmPasswordEditText;
+    private TextView registerTextView, tvwTitle;
     private Button loginButton;
     private ProgressBar loadingProgressBar;
 
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Log.i("LoginActivity", "User is signed in");
             //reload();
         }
@@ -96,8 +97,12 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEditText = binding.edtUsername;
         passwordEditText = binding.edtPassword;
+        confirmPasswordEditText = binding.edtConfirmPassword;
         loginButton = binding.btnLogin;
         loadingProgressBar = binding.loading;
+
+        registerTextView = binding.tvwRegister;
+        tvwTitle = binding.tvwTitle;
     }
 
     private void addEvents() {
@@ -133,6 +138,20 @@ public class LoginActivity extends AppCompatActivity {
             loadingProgressBar.setVisibility(View.VISIBLE);
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
+        });
+
+        registerTextView.setOnClickListener(v -> {
+            if (confirmPasswordEditText.getVisibility() == View.GONE) {
+                confirmPasswordEditText.setVisibility(View.VISIBLE);
+                tvwTitle.setText(R.string.action_sign_up_short);
+                registerTextView.setText(R.string.already_have_an_account_log_in);
+                loginButton.setText(R.string.action_sign_up_short);
+            } else {
+                confirmPasswordEditText.setVisibility(View.GONE);
+                tvwTitle.setText(R.string.action_sign_in_short);
+                registerTextView.setText(R.string.dont_have_an_account_sign_up);
+                loginButton.setText(R.string.action_sign_in_short);
+            }
         });
     }
 
