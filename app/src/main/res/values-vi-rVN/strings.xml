@@ -10,4 +10,5 @@
     <string name="prompt_password">Mật khẩu</string>
     <string name="prompt_email_or_username">Email hoặc Tên đăng nhập</string>
     <string name="prompt_confirm_password">Xác nhận mật khẩu</string>
+    <string name="action_sign_up_short">Đăng ký</string>
 </resources>

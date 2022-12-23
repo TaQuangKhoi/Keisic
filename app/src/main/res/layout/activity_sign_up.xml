@@ -11,6 +11,17 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.login.SignUpActivity">
 
+    <TextView
+        android:id="@+id/tvwTitleSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_sign_up_short"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
@@ -52,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:autofillHints="password"
         android:background="@drawable/style_edit_text"
-        android:hint="@string/prompt_password"
+        android:hint="@string/prompt_confirm_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
@@ -71,7 +82,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:enabled="false"
-        android:text="@string/action_sign_in"
+        android:text="@string/action_sign_up_short"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
