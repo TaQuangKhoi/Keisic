@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.StringRes;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.taquangkhoi.keisic.MainActivity;
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.databinding.ActivityLoginBinding;
 
@@ -41,6 +43,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REGISTER_MODE = 2;
 
     private int currentMode = LOGIN_MODE;
+
+    private static final String TAG = "LoginActivity";
+
+    FirebaseUser user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,8 +95,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            signInDirectly();
             Log.i("LoginActivity", "User is signed in");
             //reload();
         }
@@ -134,26 +141,40 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        passwordEditText.getText().toString(), LoginActivity.this);
             }
             return false;
         });
 
         loginButton.setOnClickListener(v -> {
-            switch (currentMode) {
-                case LOGIN_MODE:
-                    loadingProgressBar.setVisibility(View.VISIBLE);
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString()
-                    );
-                    break;
-                case REGISTER_MODE:
-                    loadingProgressBar.setVisibility(View.VISIBLE);
-                    loginViewModel.signup(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString()
-                    );
-                    break;
-            }
+            mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+                    .addOnCompleteListener(LoginActivity.this, task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            user = mAuth.getCurrentUser();
+
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            //updateUI(null);
+                        }
+                    });
+//            switch (currentMode) {
+//                case LOGIN_MODE:
+//                    loadingProgressBar.setVisibility(View.VISIBLE);
+//                    loginViewModel.login(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString(), LoginActivity.this
+//                    );
+//                    break;
+//                case REGISTER_MODE:
+//                    loadingProgressBar.setVisibility(View.VISIBLE);
+//                    loginViewModel.signup(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString()
+//                    );
+//                    break;
+//            }
         });
 
         registerTextView.setOnClickListener(v -> {
@@ -177,6 +198,17 @@ public class LoginActivity extends AppCompatActivity {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Create an Intent with data form FirebaseUser and go to MainActivity
+     */
+    private void signInDirectly() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        // add extra data
+        intent.putExtra("username", user.getDisplayName());
+        intent.putExtra("UID", user.getUid());
+        startActivity(intent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

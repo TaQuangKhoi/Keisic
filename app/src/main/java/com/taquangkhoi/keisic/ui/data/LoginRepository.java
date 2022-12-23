@@ -1,5 +1,8 @@
 package com.taquangkhoi.keisic.ui.data;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.taquangkhoi.keisic.ui.data.model.LoggedInUser;
 
 /**
@@ -48,9 +51,11 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(String username, String password, Context context) {
+        Log.i("LoginRepository", "login: " + username + " " + password);
+
         // handle login
-        Result<LoggedInUser> result = dataSource.login(username, password);
+        Result<LoggedInUser> result = dataSource.login(username, password, context);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }
