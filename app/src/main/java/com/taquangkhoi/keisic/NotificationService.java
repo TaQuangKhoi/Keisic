@@ -28,17 +28,22 @@ public class NotificationService extends NotificationListenerService {
     Song currentSong;
     private static final String userAgent = "Keisic";
     private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
+    String[] appToScrobbling;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+
         homeViewModel = new HomeViewModel();
-        Toast.makeText(this, "Notification Service Created", Toast.LENGTH_LONG).show();
-        Log.i(TAG, "onCreate Notification Service");
+        Log.i(TAG + " onCreate", "Notification Service Created");
+
         currentSong = new Song();
         Caller.getInstance().setUserAgent(userAgent);
 //        Caller.getInstance().setDebugMode(true);
+
+        // add String to array
+        appToScrobbling = new String[3];
     }
 
     @Override
@@ -150,5 +155,20 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
+    private static boolean check(String[] arr, String toCheckValue)
+    {
+        // check if the specified element
+        // is present in the array or not
+        // using Linear Search method
+        boolean test = false;
+        for (String element : arr) {
+            if (element == toCheckValue) {
+                test = true;
+                break;
+            }
+        }
+
+        return test;
+    }
 
 }

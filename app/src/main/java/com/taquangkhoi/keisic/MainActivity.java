@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.taquangkhoi.keisic.databinding.ActivityMainBinding;
 import com.taquangkhoi.keisic.services.MyListener;
-import com.taquangkhoi.keisic.ui.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements MyListener {
 

@@ -11,5 +11,15 @@
         app:icon="@drawable/sync"
         app:key="sync_header"
         app:title="@string/sync_header" />
+    <Preference
+        app:fragment="com.taquangkhoi.keisic.SettingsActivity$MessagesFragment"
+        app:icon="@drawable/messages"
+        app:key="messages_header"
+        app:title="@string/messages_header" />
+    <Preference
+        app:fragment="com.taquangkhoi.keisic.SettingsActivity$SyncFragment"
+        app:icon="@drawable/sync"
+        app:key="sync_header"
+        app:title="@string/sync_header" />
 
 </PreferenceScreen>
