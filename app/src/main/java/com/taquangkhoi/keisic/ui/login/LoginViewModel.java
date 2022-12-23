@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
+import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ui.data.LoginRepository;
 import com.taquangkhoi.keisic.ui.data.Result;
 import com.taquangkhoi.keisic.ui.data.model.LoggedInUser;
-import com.taquangkhoi.keisic.ui.R;
 
 public class LoginViewModel extends ViewModel {
 

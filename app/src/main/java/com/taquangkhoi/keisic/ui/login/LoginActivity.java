@@ -22,10 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.taquangkhoi.keisic.ui.R;
-import com.taquangkhoi.keisic.ui.ui.login.LoginViewModel;
-import com.taquangkhoi.keisic.ui.ui.login.LoginViewModelFactory;
-import com.taquangkhoi.keisic.ui.databinding.ActivityLoginBinding;
+import com.taquangkhoi.keisic.R;
+import com.taquangkhoi.keisic.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 

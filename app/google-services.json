@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "204438164276",
+    "project_id": "keisic",
+    "storage_bucket": "keisic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204438164276:android:aa8b67daf0943d2ca28b61",
+        "android_client_info": {
+          "package_name": "com.taquangkhoi.keisic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204438164276-ken2teqt37f67j40p8mi78m80oi4hfkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu62qE9JDWHBMfkhG-8cw2JXfbNqUV_3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204438164276-ken2teqt37f67j40p8mi78m80oi4hfkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
