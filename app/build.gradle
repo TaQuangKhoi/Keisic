@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.5.0'
-    implementation 'com.google.firebase:firebase-auth:21.0.2'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
     def room_version = "2.4.3"
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -94,7 +94,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
 
-    implementation "androidx.compose.material3:material3:1.1.0-alpha01"
+
 
     def composeBom = platform('androidx.compose:compose-bom:2022.12.00')
     implementation composeBom
@@ -102,7 +102,7 @@ dependencies {
 
     // Choose one of the following:
     // Material Design 3
-    implementation 'androidx.compose.material3:material3'
+    implementation "androidx.compose.material3:material3:1.1.0-alpha03"
     // or Material Design 2
     implementation 'androidx.compose.material:material'
     // or skip Material Design and build directly on top of foundational components
