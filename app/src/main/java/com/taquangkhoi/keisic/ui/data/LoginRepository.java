@@ -8,6 +8,11 @@ import com.taquangkhoi.keisic.ui.data.model.LoggedInUser;
  */
 public class LoginRepository {
 
+    /*
+    * volatile: The volatile keyword ensures that multiple threads handle the unique instance
+    * variable correctly when it is being initialized to the Singleton instance.
+    * volatile đánh dấu biến đã được lưu trong bộ nhớ chính
+    */
     private static volatile LoginRepository instance;
 
     private LoginDataSource dataSource;

@@ -1,4 +1,4 @@
-package com.taquangkhoi.keisic.ui.ui.login;
+package com.taquangkhoi.keisic.ui.login;
 
 import android.app.Activity;
 
