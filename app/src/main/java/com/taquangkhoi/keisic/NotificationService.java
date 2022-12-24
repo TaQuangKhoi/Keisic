@@ -1,18 +1,17 @@
 package com.taquangkhoi.keisic;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.taquangkhoi.keisic.myroom.KeisicDatabase;
+import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
@@ -98,6 +97,7 @@ public class NotificationService extends NotificationListenerService {
                 return;
             } else {
                 Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
+                addSong(songNameExtras, artistExtras);
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());
                 currentSong.setStartTime(new Date());
@@ -154,7 +154,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    private static boolean check(String[] arr, String toCheckValue) {
+    private boolean check(String[] arr, String toCheckValue) {
         // check if the specified element
         // is present in the array or not
         // using Linear Search method
@@ -167,6 +167,13 @@ public class NotificationService extends NotificationListenerService {
         }
 
         return test;
+    }
+
+    private void addSong(String songName, String artist) {
+        // add song to scrobbling list
+        Song song = new Song(songName, artist);
+        KeisicDatabase.getInstance(context).songDao().insert(song);
+        Log.i(TAG, "addSong: " + song.getFullInfor());
     }
 
 }
