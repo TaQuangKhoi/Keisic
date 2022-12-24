@@ -40,6 +40,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
+    kotlinOptions { // Có thể cái này không cần thiết
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
