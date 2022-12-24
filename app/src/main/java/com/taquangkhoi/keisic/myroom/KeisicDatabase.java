@@ -2,11 +2,18 @@ package com.taquangkhoi.keisic.myroom;
 
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Song.class}, version = 1)
+@Database(
+        entities = {Song.class},
+        version = 2,
+        autoMigrations = {
+                @AutoMigration(from = 1, to = 2)
+        }
+)
 public abstract class KeisicDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "keisic.db";
@@ -16,7 +23,7 @@ public abstract class KeisicDatabase extends RoomDatabase {
     public static synchronized KeisicDatabase getInstance(Context context) {
         if (sInstance == null) {
             sInstance = Room.databaseBuilder(context.getApplicationContext(),
-                    KeisicDatabase.class, DATABASE_NAME)
+                            KeisicDatabase.class, DATABASE_NAME)
                     .allowMainThreadQueries()
                     .build();
         }

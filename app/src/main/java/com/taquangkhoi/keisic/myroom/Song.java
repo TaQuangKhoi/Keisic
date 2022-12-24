@@ -28,6 +28,17 @@ public class Song {
     @Ignore
     private Date startTime;
 
+    @ColumnInfo(name = "listen_time")
+    private Long listenTime;
+
+    public Long getListenTime() {
+        return listenTime;
+    }
+
+    public void setListenTime(Long listenTime) {
+        this.listenTime = listenTime;
+    }
+
     public Song(String name, String artist, String path, int duration, Date startTime) {
         this.name = name;
         this.artist = artist;
