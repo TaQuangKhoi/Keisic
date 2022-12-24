@@ -6,7 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Song.class, Scrobble.class}, version = 2)
+@Database(
+        entities = {Song.class, Scrobble.class},
+        version = 2,
+        exportSchema = true
+)
 public abstract class KeisicDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "keisic.db";
