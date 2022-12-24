@@ -81,9 +81,9 @@ public class NotificationService extends NotificationListenerService {
             Bundle extras = sbn.getNotification().extras;
 
             // Kiểm tra xem có bao nhiêu key trong extras
-            extras.keySet().forEach(key -> {
-                Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
-            });
+//            extras.keySet().forEach(key -> {
+//                Log.i(TAG, "onNotificationPosted: " + key + " : " + extras.get(key));
+//            });
 
             Log.i(TAG, "android.title: " + extras.getCharSequence("android.title"));
             Log.i(TAG, "android.text: " + extras.getCharSequence("android.text"));
