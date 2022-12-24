@@ -6,12 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Song.class}, version = 1)
+@Database(entities = {Song.class, Scrobble.class}, version = 2)
 public abstract class KeisicDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "keisic.db";
     private static KeisicDatabase sInstance;
-
 
     public static synchronized KeisicDatabase getInstance(Context context) {
         if (sInstance == null) {
