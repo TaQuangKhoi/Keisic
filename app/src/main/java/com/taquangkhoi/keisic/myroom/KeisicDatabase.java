@@ -8,10 +8,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 @Database(
-        entities = {Song.class},
-        version = 2,
+        entities = {Song.class, Scrobble.class},
+        version = 3,
         autoMigrations = {
-                @AutoMigration(from = 1, to = 2)
+                @AutoMigration(from = 2, to = 3)
         }
 )
 public abstract class KeisicDatabase extends RoomDatabase {
