@@ -10,10 +10,10 @@ import java.util.List;
 @Dao
 public interface ScrobbleDAO {
 
-    @Query("SELECT * FROM Scrobble")
+    @Query("SELECT * FROM scrobbles")
     List<Scrobble> getAll();
 
-    @Query("SELECT * FROM Scrobble WHERE uid IN (:scrobbleIds)")
+    @Query("SELECT * FROM scrobbles WHERE uid IN (:scrobbleIds)")
     List<Scrobble> loadAllByIds(int[] scrobbleIds);
 
     @Insert
