@@ -97,4 +97,8 @@ public class Scrobble {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+
+    public String toString() {
+        return "Scrobble: " + this.name + " by " + this.artist + " from " + this.startTime + " to " + this.endTime;
+    }
 }

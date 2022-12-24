@@ -23,4 +23,6 @@ public abstract class KeisicDatabase extends RoomDatabase {
     }
 
     public abstract SongDAO songDao();
+
+    public abstract ScrobbleDAO scrobbleDao();
 }

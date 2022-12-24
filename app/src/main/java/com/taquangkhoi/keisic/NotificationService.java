@@ -11,10 +11,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
+import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import de.umass.lastfm.Caller;
@@ -28,6 +30,7 @@ public class NotificationService extends NotificationListenerService {
     private static final String userAgent = "Keisic";
     private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
     String[] appToScrobbling;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     @Override
     public void onCreate() {
@@ -174,9 +177,9 @@ public class NotificationService extends NotificationListenerService {
 
     private void addSong(String songName, String artist) {
         // add song to scrobbling list
-        Song song = new Song(songName, artist);
-        KeisicDatabase.getInstance(context).songDao().insert(song);
-        Log.i(TAG, "addSong: " + song.getFullInfor());
+        Scrobble song = new Scrobble(songName, artist);
+        KeisicDatabase.getInstance(context).scrobbleDao().insert(song);
+        Log.i(TAG, "addSong: " + song.toString());
     }
 
 }
