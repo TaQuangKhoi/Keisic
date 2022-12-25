@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         //startService(intentTestService); // sau khi nhấn nút thì sẽ chạy service tại onCreate về sau
         // thử nghiệm với service NotificationService
 
-        //startService(intentService);
-
         //request notification permission
         createNotificationChannel();
 

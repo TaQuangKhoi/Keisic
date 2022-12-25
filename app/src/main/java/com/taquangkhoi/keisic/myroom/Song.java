@@ -28,6 +28,9 @@ public class Song {
     @Ignore
     private Date startTime;
 
+    @Ignore
+    private int imageId;
+
 //    @ColumnInfo(name = "listen_time")
 //    private Long listenTime;
 //
@@ -58,6 +61,13 @@ public class Song {
     public Song(String name, String artist) {
         this.name = name;
         this.artist = artist;
+    }
+
+    // Constructor for Scrooble ListView
+    public Song(int imageId, String name, String artist) {
+        this.name = name;
+        this.artist = artist;
+        this.imageId = imageId;
     }
 
     public String getName() {
@@ -110,5 +120,13 @@ public class Song {
 
     public boolean isEmpty() {
         return name.isEmpty() && artist.isEmpty() && path.isEmpty();
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }

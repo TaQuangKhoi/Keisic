@@ -13,9 +13,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(
         entities = {Song.class, Scrobble.class},
-        version = 4,
+        version = 5,
         autoMigrations = {
-                @AutoMigration(from = 3, to = 4, spec = KeisicDatabase.Migration3To4.class)
+                @AutoMigration(
+                        from = 1,
+                        to = 2
+                ),
+                @AutoMigration(from = 4, to = 5)
         }
 )
 public abstract class KeisicDatabase extends RoomDatabase {

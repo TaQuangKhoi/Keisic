@@ -147,34 +147,31 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
-                    .addOnCompleteListener(LoginActivity.this, task -> {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            user = mAuth.getCurrentUser();
+            switch (currentMode) {
+                case LOGIN_MODE:
+                    loadingProgressBar.setVisibility(View.VISIBLE);
 
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            //updateUI(null);
-                        }
-                    });
-//            switch (currentMode) {
-//                case LOGIN_MODE:
-//                    loadingProgressBar.setVisibility(View.VISIBLE);
-//                    loginViewModel.login(usernameEditText.getText().toString(),
-//                            passwordEditText.getText().toString(), LoginActivity.this
-//                    );
-//                    break;
-//                case REGISTER_MODE:
-//                    loadingProgressBar.setVisibility(View.VISIBLE);
-//                    loginViewModel.signup(usernameEditText.getText().toString(),
-//                            passwordEditText.getText().toString()
-//                    );
-//                    break;
-//            }
+                    mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+                            .addOnCompleteListener(LoginActivity.this, task -> {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    user = mAuth.getCurrentUser();
+
+                                    //updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                    //updateUI(null);
+                                }
+                            });
+
+                    break;
+                case REGISTER_MODE:
+                    loadingProgressBar.setVisibility(View.VISIBLE);
+
+                    break;
+            }
         });
 
         registerTextView.setOnClickListener(v -> {

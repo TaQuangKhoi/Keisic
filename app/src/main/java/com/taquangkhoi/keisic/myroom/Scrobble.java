@@ -2,6 +2,7 @@ package com.taquangkhoi.keisic.myroom;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "scrobbles")
@@ -27,6 +28,9 @@ public class Scrobble {
     @ColumnInfo(name = "endTime")
     private String endTime;
 
+    @Ignore
+    private int imageId;
+
     public Scrobble(String name, String artist, String path, int duration, String startTime, String endTime) {
         this.name = name;
         this.artist = artist;
@@ -45,9 +49,11 @@ public class Scrobble {
         this.endTime = "";
     }
 
-    public Scrobble(String name, String artist) {
+
+    public Scrobble(String name, String artist, String startTime) {
         this.name = name;
         this.artist = artist;
+        this.startTime = startTime;
     }
 
     public String getName() {
@@ -100,5 +106,13 @@ public class Scrobble {
 
     public String toString() {
         return "Scrobble: " + this.name + " by " + this.artist + " from " + this.startTime + " to " + this.endTime;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 }

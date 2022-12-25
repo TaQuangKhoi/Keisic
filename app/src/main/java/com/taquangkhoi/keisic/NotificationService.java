@@ -16,6 +16,8 @@ import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -103,7 +105,14 @@ public class NotificationService extends NotificationListenerService {
                 return;
             } else {
                 Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
-                addSong(songNameExtras, artistExtras);
+                // get current time and date as String
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                String ts = sdf.format(timestamp);
+                Log.i(TAG, "Current Time is:  " + ts);
+
+
+                addSong(songNameExtras, artistExtras, ts);
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());
                 currentSong.setStartTime(new Date());
@@ -175,9 +184,9 @@ public class NotificationService extends NotificationListenerService {
         return test;
     }
 
-    private void addSong(String songName, String artist) {
+    private void addSong(String songName, String artist, String currentTime) {
         // add song to scrobbling list
-        Scrobble song = new Scrobble(songName, artist);
+        Scrobble song = new Scrobble(songName, artist, currentTime);
         KeisicDatabase.getInstance(context).scrobbleDao().insert(song);
         Log.i(TAG, "addSong: " + song.toString());
     }
