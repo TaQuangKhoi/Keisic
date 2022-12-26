@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.taquangkhoi.keisic.databinding.FragmentSlideshowBinding;
 
-public class SlideshowFragment extends Fragment {
+public class ChartFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
 

@@ -51,10 +51,11 @@ public class Scrobble {
     }
 
 
-    public Scrobble(String name, String artist, String listenTime) {
+    public Scrobble(String name, String artist, String listenTime, String path) {
         this.name = name;
         this.artist = artist;
         this.listenTime = listenTime;
+        this.path = path;
     }
 
     public Scrobble(String name, String artist) {

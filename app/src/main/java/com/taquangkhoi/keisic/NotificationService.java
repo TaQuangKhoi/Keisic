@@ -3,12 +3,17 @@ package com.taquangkhoi.keisic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
@@ -20,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -85,33 +92,10 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
-        final String[] response = {null};
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    response[0] = runTest("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=ad3fac03e78b01b78cf8b67f9d0f1ceb&artist=cher&track=believe&format=json");
-                    // parse json
-                    JSONObject obj = new JSONObject(response[0]);
-                    Log.i(TAG, "run: " + obj.toString());
-                    String songName = obj.getJSONObject("track").getString("name");
-                    String songDuration = obj.getJSONObject("track").getString("duration");
-                    Log.i(TAG, "run: song anme " + songName);
-                    Log.i(TAG, "run: song duration " + songDuration);
-                    Log.i(TAG, "onNotificationPosted test Okhttp: " + response[0]);
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-
 
         String pack = sbn.getPackageName();
 
-        if (currentSong.isEmpty() == false) {
+        if (!currentSong.isEmpty()) {
             Log.i(TAG, "Current Song is " + currentSong.getFullInfor());
         }
 
@@ -148,10 +132,15 @@ public class NotificationService extends NotificationListenerService {
                 Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
                 // get current time and date as String
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                String ts = timestamp.toString() ;
+                String ts = timestamp.toString();
                 Log.i(TAG, "Current Time is:  " + ts);
-
-                addSong(songNameExtras, artistExtras, ts);
+                Bundle bundle = null;
+                try {
+                    bundle = getTrackInfo(songNameExtras, artistExtras);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                addSong(songNameExtras, artistExtras, ts, bundle.getString("song-url"));
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());
                 currentSong.setStartTime(new Date());
@@ -170,6 +159,96 @@ public class NotificationService extends NotificationListenerService {
                 }
             }
         }
+    }
+
+    public String buildUrlSearchTrack(String songName, @Nullable String artist) {
+        Log.i(TAG, "buildUrlSearchTrack: songInfo is " + songName + " - " + artist);
+        // turn string to url
+
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=track.search")
+                .buildUpon()
+                .appendQueryParameter("track", songName)
+                .appendQueryParameter("artist", artist != null ? artist.split(", ")[0] : "")
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("format", "json")
+                .build().toString();
+
+        Log.i(TAG, "buildUrlSearchTrack urlSearch: " + urlSearch);
+        return urlSearch;
+    }
+
+    public String buildUrlGetTrackInfo(String songName, @Nullable String artist) {
+        Log.i(TAG, "buildUrlGetTrackInfo: songInfo is " + songName + " - " + artist);
+        // turn string to url
+
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=track.getInfo")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("track", songName)
+                .appendQueryParameter("artist", artist != null ? artist.split(", ")[0] : "")
+                .appendQueryParameter("format", "json")
+                .build().toString();
+
+        Log.i(TAG, "buildUrlGetTrackInfo urlSearch: " + urlSearch);
+        return urlSearch;
+    }
+
+    public void searchTrack(String songName, String artist) {
+        final String[] response = {null};
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(buildUrlSearchTrack(songName, artist));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "run: " + obj.toString());
+                    String songName = obj.getJSONObject("track").getString("name");
+                    String songDuration = obj.getJSONObject("track").getString("duration");
+                    Log.i(TAG, "run: song anme " + songName);
+                    Log.i(TAG, "run: song duration " + songDuration);
+                    Log.i(TAG, "onNotificationPosted test Okhttp: " + response[0]);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+    }
+
+    public Bundle getTrackInfo(String songName, String artist) throws InterruptedException {
+        final String[] response = {null};
+        Bundle bundle = new Bundle();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(buildUrlGetTrackInfo(songName, artist));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getTrackInfo run: json " + obj.toString());
+
+                    String songName = obj.getJSONObject("track").getString("name");
+                    bundle.putString("song-name", songName);
+
+                    String songDuration = obj.getJSONObject("track").getString("duration");
+                    bundle.putString("song-duration", songDuration);
+
+                    String songUrl = obj.getJSONObject("track").getString("url");
+                    bundle.putString("song-url", songUrl);
+
+                    Log.i(TAG, "getTrackInfo run: bundle " + bundle.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        thread.join();
+        Log.i(TAG, "getTrackInfo after thread: bundle " + bundle.toString());
+        return bundle;
     }
 
     @Override
@@ -223,9 +302,9 @@ public class NotificationService extends NotificationListenerService {
         return test;
     }
 
-    private void addSong(String songName, String artist, String currentTime) {
+    private void addSong(String songName, String artist, String currentTime, String url) {
         // add song to scrobbling list
-        Scrobble song = new Scrobble(songName, artist, currentTime);
+        Scrobble song = new Scrobble(songName, artist, currentTime, url);
         KeisicDatabase.getInstance(context).scrobbleDao().insert(song);
         Log.i(TAG, "addSong: " + song.toString());
     }
