@@ -31,6 +31,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.taquangkhoi.keisic.databinding.ActivityMainBinding;
 import com.taquangkhoi.keisic.services.MyListener;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private static final String TAG = "MainActivity";
     private NotificationReceiver nReceiver;
     NotificationCompat.Builder builder;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
-
+        mAuth = FirebaseAuth.getInstance();
         checkNotificationPermission();
 
         // Tạo Receiver để nhận thông báo
@@ -168,14 +170,26 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         getMenuInflater().inflate(R.menu.main, menu);
 
         //add event to menu item
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem itemSettings = menu.findItem(R.id.action_settings);
+        itemSettings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Snackbar.make(binding.appBarMain.fab, "Opening Setting", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+                return false;
+            }
+        });
+
+        MenuItem itemLogout = menu.findItem(R.id.action_logout);
+        itemLogout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Snackbar.make(binding.appBarMain.fab, "Logging out", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                mAuth.signOut();
+                finish();
                 return false;
             }
         });

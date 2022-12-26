@@ -147,5 +147,6 @@ dependencies {
     // Optional - Integration with RxJava
     implementation 'androidx.compose.runtime:runtime-rxjava2'
 
+    // Dùng để lấy data từ Last FM
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
 }

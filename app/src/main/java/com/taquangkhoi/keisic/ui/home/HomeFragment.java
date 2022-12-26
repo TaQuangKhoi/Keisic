@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
@@ -66,7 +67,22 @@ public class HomeFragment extends Fragment implements MyListener {
 
         addReceiver();
 
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Scrobble scrobble = (Scrobble) parent.getItemAtPosition(position);
+            Log.i(TAG, "onItemClick: " + scrobble.getName());
+            showBottomSheetDialog();
+        });
+
         return root;
+    }
+
+    private void showBottomSheetDialog() {
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+        bottomSheetDialog.setContentView(R.layout.scrobble_info);
+
+        TextView textView = bottomSheetDialog.findViewById(R.id.tvw_title_test);
+
+        bottomSheetDialog.show();
     }
 
     void Counter() {
