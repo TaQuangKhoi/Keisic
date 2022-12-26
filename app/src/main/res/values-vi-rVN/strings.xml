@@ -13,4 +13,6 @@
     <string name="action_sign_up_short">Đăng ký</string>
     <string name="dont_have_an_account_sign_up">Không có tải khoản? Đăng ký ngay</string>
     <string name="already_have_an_account_log_in">Đã có tải khoản? Đăng nhập</string>
+    <string name="storage_header">Lưu trữ</string>
+    <string name="services_header">Dịch vụ chạy nền</string>
 </resources>

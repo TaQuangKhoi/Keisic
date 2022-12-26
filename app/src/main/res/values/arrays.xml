@@ -9,4 +9,19 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <!-- Storage Preference -->
+    <string-array name="storage_entries">
+        <item>Local</item>
+        <item>Remote</item>
+        <item>Last.fm</item>
+        <item>Both</item>
+    </string-array>
+
+    <string-array name="storage_values">
+        <item>local</item>
+        <item>remote</item>
+        <item>lastfm</item>
+        <item>both</item>
+    </string-array>
 </resources>

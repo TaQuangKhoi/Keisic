@@ -1,5 +1,18 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <CheckBoxPreference
+        app:key="sync_title"
+        app:title="@string/storage_local"
+        />
+
+    <ListPreference
+        app:defaultValue="reply"
+        app:entries="@array/storage_entries"
+        app:entryValues="@array/storage_values"
+        app:key="both"
+        app:title="@string/storage_local"
+        app:useSimpleSummaryProvider="true" />
+
     <SwitchPreferenceCompat
         app:key="sync"
         app:title="@string/sync_title" />
