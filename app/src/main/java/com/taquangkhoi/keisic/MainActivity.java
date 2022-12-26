@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         // get data from Login intent to show email
         Intent intentFromPreviousActivity = getIntent();
         String emailFromIntent = intentFromPreviousActivity.getStringExtra("email");
-        tvwEmail.setText(emailFromIntent);
+        //tvwEmail.setText(emailFromIntent);
 
         //request notification permission
         createNotificationChannel();
