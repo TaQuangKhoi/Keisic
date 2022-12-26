@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_scrobbles"
-        android:name="com.taquangkhoi.keisic.ui.home.HomeFragment"
+        android:name="com.taquangkhoi.keisic.ui.scrobbles.HomeFragment"
         android:label="@string/menu_scrobbles"
         tools:layout="@layout/fragment_home" />
 

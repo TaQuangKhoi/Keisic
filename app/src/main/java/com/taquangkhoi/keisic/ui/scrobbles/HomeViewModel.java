@@ -1,4 +1,4 @@
-package com.taquangkhoi.keisic.ui.home;
+package com.taquangkhoi.keisic.ui.scrobbles;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.notification.MyNotification;

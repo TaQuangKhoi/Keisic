@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_example"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/kodcviethoa"
+        android:background="@drawable/bogoc_img_example_in_custom_listivew_artists"/>
+
+    <LinearLayout
+        android:id="@+id/txt_example"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_example"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@drawable/background_bogoc_artists">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_marginRight="3dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/winds_star" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. Yue" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="83 scrobbles"
+            android:layout_below="@id/txt_example"
+            android:layout_marginBottom="5dp"
+            android:textSize="13dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#AF9BA2" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

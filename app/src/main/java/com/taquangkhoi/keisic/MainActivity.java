@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -24,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -44,13 +46,17 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private NotificationReceiver nReceiver;
     NotificationCompat.Builder builder;
     FirebaseAuth mAuth;
+    private TextView tvwEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainViewModal mainViewModal = new ViewModelProvider(this).get(MainViewModal.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        tvwEmail = findViewById(R.id.tvw_user_email);
 
         setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
         mAuth = FirebaseAuth.getInstance();
@@ -62,12 +68,10 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         filter.addAction("Msg");
         registerReceiver(nReceiver, filter);
 
-        // reference to a Kotlin Class
-//        Intent intentService = new Intent(this, NotificationService.class);
-        //new NotificationService().setListener(this);
-//        Intent intentTestService = new Intent(MainActivity.this, NotificationService.class);
-        //startService(intentTestService); // sau khi nhấn nút thì sẽ chạy service tại onCreate về sau
-        // thử nghiệm với service NotificationService
+        // get data from Login intent to show email
+        Intent intentFromPreviousActivity = getIntent();
+        String emailFromIntent = intentFromPreviousActivity.getStringExtra("email");
+        tvwEmail.setText(emailFromIntent);
 
         //request notification permission
         createNotificationChannel();
@@ -85,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
-
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

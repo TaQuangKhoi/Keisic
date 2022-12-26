@@ -1,4 +1,4 @@
-package com.taquangkhoi.keisic.ui.home;
+package com.taquangkhoi.keisic.ui.scrobbles;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -24,7 +23,6 @@ import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.services.MyListener;
 
-import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class HomeFragment extends Fragment implements MyListener {
