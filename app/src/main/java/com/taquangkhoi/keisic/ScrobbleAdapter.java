@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
 
+import org.w3c.dom.Text;
+
 public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
     private Context mContext;
     private int mResource;
@@ -31,15 +33,17 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
 
         // Ánh xạ thông qua customView (chưa có data)
         ImageView imageView = customView.findViewById(R.id.ivwSongArt);
-        TextView tvNameBus = customView.findViewById(R.id.tvw_title_item);
-        TextView tvRouteBus = customView.findViewById(R.id.tvw_detail_item);
+        TextView tvNameSong = customView.findViewById(R.id.tvw_title_item);
+        TextView tvArtist = customView.findViewById(R.id.tvw_detail_item);
+        TextView tvTime = customView.findViewById(R.id.tvw_time_item);
 
         Scrobble song = getItem(position); // Lấy đối tượng
 
         // Lấy dữ liệu từ phần tử với position trong mảng đưa vào từng View
         imageView.setImageResource(song.getImageId());
-        tvNameBus.setText(song.getName());
-        tvRouteBus.setText(song.getArtist());
+        tvNameSong.setText(song.getName());
+        tvArtist.setText(song.getArtist());
+        tvTime.setText(song.getStartTime());
 
         return customView;
     }
