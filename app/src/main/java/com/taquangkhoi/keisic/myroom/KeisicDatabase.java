@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.DeleteColumn;
+import androidx.room.RenameColumn;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.AutoMigrationSpec;
@@ -13,14 +14,24 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(
         entities = {Song.class, Scrobble.class},
-        version = 6,
+        version = 7,
         autoMigrations = {
                 @AutoMigration(
                         from = 1,
                         to = 2
                 ),
+                @AutoMigration(
+                        from = 3,
+                        to = 4,
+                        spec = KeisicDatabase.Migration3To4.class
+                ),
                 @AutoMigration(from = 4, to = 5),
-                @AutoMigration(from = 5, to = 6)
+                @AutoMigration(from = 5, to = 6),
+                @AutoMigration( // 26-Dec-2022 11:39 AM
+                        from = 6,
+                        to = 7,
+                        spec = KeisicDatabase.Migration6To7.class
+                )
         }
 )
 public abstract class KeisicDatabase extends RoomDatabase {
@@ -47,5 +58,13 @@ public abstract class KeisicDatabase extends RoomDatabase {
             columnName = "listen_time"
     )
     static class Migration3To4 implements AutoMigrationSpec {
+    }
+
+    @RenameColumn(
+            tableName = "scrobbles",
+            fromColumnName = "startTime",
+            toColumnName = "listen_time"
+    )
+    static class Migration6To7 implements AutoMigrationSpec {
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface ScrobbleDAO {
 
-    @Query("SELECT * FROM scrobbles ORDER BY startTime DESC")
+    @Query("SELECT * FROM scrobbles ORDER BY listen_time DESC")
     List<Scrobble> getAll();
 
     @Query("SELECT * FROM scrobbles WHERE uid IN (:scrobbleIds)")

@@ -22,8 +22,8 @@ public class Scrobble {
     @ColumnInfo(name = "duration")
     private int duration;
 
-    @ColumnInfo(name = "startTime")
-    private String startTime;
+    @ColumnInfo(name = "listen_time")
+    private String listenTime;
 
     @ColumnInfo(name = "endTime")
     private String endTime;
@@ -31,12 +31,12 @@ public class Scrobble {
     @Ignore
     private int imageId;
 
-    public Scrobble(String name, String artist, String path, int duration, String startTime, String endTime) {
+    public Scrobble(String name, String artist, String path, int duration, String listenTime, String endTime) {
         this.name = name;
         this.artist = artist;
         this.path = path;
         this.duration = duration;
-        this.startTime = startTime;
+        this.listenTime = listenTime;
         this.endTime = endTime;
     }
 
@@ -45,15 +45,15 @@ public class Scrobble {
         this.artist = "";
         this.path = "";
         this.duration = 0;
-        this.startTime = "";
+        this.listenTime = "";
         this.endTime = "";
     }
 
 
-    public Scrobble(String name, String artist, String startTime) {
+    public Scrobble(String name, String artist, String listenTime) {
         this.name = name;
         this.artist = artist;
-        this.startTime = startTime;
+        this.listenTime = listenTime;
     }
 
     public Scrobble(String name, String artist) {
@@ -77,8 +77,8 @@ public class Scrobble {
         return duration;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getListenTime() {
+        return listenTime;
     }
 
     public String getEndTime() {
@@ -101,8 +101,8 @@ public class Scrobble {
         this.duration = duration;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setListenTime(String listenTime) {
+        this.listenTime = listenTime;
     }
 
     public void setEndTime(String endTime) {
@@ -110,7 +110,7 @@ public class Scrobble {
     }
 
     public String toString() {
-        return "Scrobble: " + this.name + " by " + this.artist + " from " + this.startTime + " to " + this.endTime;
+        return "Scrobble: " + this.name + " by " + this.artist + " from " + this.listenTime + " to " + this.endTime;
     }
 
     public int getImageId() {

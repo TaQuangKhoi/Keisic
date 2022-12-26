@@ -12,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.taquangkhoi.keisic.myroom.Scrobble;
-import com.taquangkhoi.keisic.myroom.Song;
-
-import org.w3c.dom.Text;
 
 public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
     private Context mContext;
@@ -43,7 +40,7 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
         imageView.setImageResource(song.getImageId());
         tvNameSong.setText(song.getName());
         tvArtist.setText(song.getArtist());
-        tvTime.setText(song.getStartTime());
+        tvTime.setText(song.getListenTime());
 
         return customView;
     }
