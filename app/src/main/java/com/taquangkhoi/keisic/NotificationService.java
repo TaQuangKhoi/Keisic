@@ -16,12 +16,19 @@ import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.home.HomeViewModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import de.umass.lastfm.Caller;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NotificationService extends NotificationListenerService {
     Context context;
@@ -31,8 +38,16 @@ public class NotificationService extends NotificationListenerService {
     Song currentSong;
     private static final String userAgent = "Keisic";
     private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
+    private static final String lastFmApiSecret = BuildConfig.LAST_FM_SHARED_SECRET;
     String[] appToScrobbling;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
+    String key = lastFmApiKey;      // api key
+    String secret = lastFmApiSecret;   // api secret
+    String user = "TaQuangKhoi";     // user name
+    String password = "..."; // user's password
+
+    final OkHttpClient client = new OkHttpClient();
 
     @Override
     public void onCreate() {
@@ -43,8 +58,11 @@ public class NotificationService extends NotificationListenerService {
         Log.i(TAG, "onCreate : Notification Service Created");
 
         currentSong = new Song();
-        Caller.getInstance().setUserAgent(userAgent);
-//        Caller.getInstance().setDebugMode(true);
+
+
+        //Session session = Authenticator.getMobileSession(user, password, key, secret);
+        //Playlist playlist = Playlist.create("example playlist", "description", session);
+
 
         // add String to array
         appToScrobbling = new String[3];
@@ -53,11 +71,13 @@ public class NotificationService extends NotificationListenerService {
         KeisicDatabase.getInstance(context);
     }
 
+
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
         Toast.makeText(this, "Notification Service Connected", Toast.LENGTH_LONG).show();
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -67,6 +87,29 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
+        final String[] response = {null};
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest("http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=ad3fac03e78b01b78cf8b67f9d0f1ceb&artist=cher&track=believe&format=json");
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "run: " + obj.toString());
+                    String songName = obj.getJSONObject("track").getString("name");
+                    String songDuration = obj.getJSONObject("track").getString("duration");
+                    Log.i(TAG, "run: song anme " + songName);
+                    Log.i(TAG, "run: song duration " + songDuration);
+                    Log.i(TAG, "onNotificationPosted test Okhttp: " + response[0]);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+
 
         String pack = sbn.getPackageName();
 
@@ -188,6 +231,16 @@ public class NotificationService extends NotificationListenerService {
         Scrobble song = new Scrobble(songName, artist, currentTime);
         KeisicDatabase.getInstance(context).scrobbleDao().insert(song);
         Log.i(TAG, "addSong: " + song.toString());
+    }
+
+    private String runTest(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
     }
 
 }

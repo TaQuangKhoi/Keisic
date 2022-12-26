@@ -37,11 +37,19 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
         Scrobble song = getItem(position); // Lấy đối tượng
 
         // Lấy dữ liệu từ phần tử với position trong mảng đưa vào từng View
-        imageView.setImageResource(song.getImageId());
+        if (song.getImageId() != 0) {
+            imageView.setImageResource(song.getImageId());
+        }
         tvNameSong.setText(song.getName());
         tvArtist.setText(song.getArtist());
         tvTime.setText(song.getListenTime());
 
         return customView;
+    }
+
+    // Func to return time as minute and second
+    private void getMinuteAndSecond(String time) {
+        //turn String to time
+        int timeInt = Integer.parseInt(time);
     }
 }
