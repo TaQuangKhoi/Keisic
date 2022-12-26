@@ -56,6 +56,11 @@ public class Scrobble {
         this.startTime = startTime;
     }
 
+    public Scrobble(String name, String artist) {
+        this.name = name;
+        this.artist = artist;
+    }
+
     public String getName() {
         return name;
     }
