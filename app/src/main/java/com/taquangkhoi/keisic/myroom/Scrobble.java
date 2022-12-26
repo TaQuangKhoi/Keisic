@@ -31,6 +31,7 @@ public class Scrobble {
     @Ignore
     private int imageId;
 
+    @Ignore
     public Scrobble(String name, String artist, String path, int duration, String listenTime, String endTime) {
         this.name = name;
         this.artist = artist;

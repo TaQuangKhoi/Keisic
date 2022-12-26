@@ -42,6 +42,7 @@ public class Song {
 //        this.listenTime = listenTime;
 //    }
 
+    @Ignore
     public Song(String name, String artist, String path, int duration, Date startTime) {
         this.name = name;
         this.artist = artist;
@@ -58,6 +59,7 @@ public class Song {
         this.startTime = new Date();
     }
 
+    @Ignore
     public Song(String name, String artist) {
         this.name = name;
         this.artist = artist;
