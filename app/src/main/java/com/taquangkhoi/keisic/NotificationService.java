@@ -40,7 +40,7 @@ public class NotificationService extends NotificationListenerService {
         context = getApplicationContext();
 
         homeViewModel = new HomeViewModel();
-        Log.i(TAG + " onCreate", "Notification Service Created");
+        Log.i(TAG, "onCreate : Notification Service Created");
 
         currentSong = new Song();
         Caller.getInstance().setUserAgent(userAgent);
@@ -116,12 +116,12 @@ public class NotificationService extends NotificationListenerService {
                 currentSong.setArtist(extras.get("android.text").toString());
                 currentSong.setStartTime(new Date());
 
-                String text = extras.getCharSequence("android.text").toString();
 
                 Intent msgrcv = new Intent("Msg");
                 msgrcv.putExtra("package", pack);
                 //msgrcv.putExtra("title", title);
-                msgrcv.putExtra("text", text);
+                msgrcv.putExtra("song-name", extras.getCharSequence("android.title").toString());
+                msgrcv.putExtra("artist", extras.getCharSequence("android.text").toString());
 
                 sendBroadcast(msgrcv);
 
