@@ -33,8 +33,6 @@ public class HomeFragment extends Fragment implements MyListener {
 
     private ListView listView;
     HomeViewModel homeViewModel;
-    TextView textView;
-
 
     private NotificationReceiver nReceiver;
 
@@ -49,10 +47,7 @@ public class HomeFragment extends Fragment implements MyListener {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         View root = binding.getRoot();
-        textView = binding.textHome;
         listView = binding.listView;
-
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         //addDataToScrobblesListView();
 

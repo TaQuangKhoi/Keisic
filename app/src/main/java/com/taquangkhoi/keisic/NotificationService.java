@@ -14,18 +14,16 @@ import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
-import com.taquangkhoi.keisic.ui.home.HomeViewModel;
+import com.taquangkhoi.keisic.ui.scrobbles.HomeViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import de.umass.lastfm.Caller;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
