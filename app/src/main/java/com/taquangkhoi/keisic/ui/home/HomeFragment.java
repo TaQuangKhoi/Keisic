@@ -106,8 +106,10 @@ public class HomeFragment extends Fragment implements MyListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String temp = intent.getStringExtra("package");
-            Log.i(TAG , "NotificationReceiver "+ "onReceive: " + temp);
-            scrobbleAdapter.notifyDataSetChanged();
+            String songName = intent.getStringExtra("song-name");
+            String artistName = intent.getStringExtra("artist");
+            scrobbleAdapter.add(new Scrobble(songName, artistName));
+            Log.i(TAG , "NotificationReceiver "+ "onReceive: " + temp + " : " + songName + " - " + artistName);
         }
     }
 
