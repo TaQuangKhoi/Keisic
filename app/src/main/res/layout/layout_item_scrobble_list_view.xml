@@ -29,6 +29,7 @@
         <TextView
             android:id="@+id/tvw_title_item"
             android:layout_width="match_parent"
+            android:maxLength="19"
             android:layout_height="wrap_content"
             android:text="test Value"
             android:textSize="20sp"

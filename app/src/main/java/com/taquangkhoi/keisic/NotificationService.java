@@ -149,9 +149,8 @@ public class NotificationService extends NotificationListenerService {
             } else {
                 Log.i(TAG, "onNotificationPosted: Song is different | " + currentSong.getFullInfor());
                 // get current time and date as String
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                String ts = sdf.format(timestamp);
+                String ts = timestamp.toString() ;
                 Log.i(TAG, "Current Time is:  " + ts);
 
                 addSong(songNameExtras, artistExtras, ts);

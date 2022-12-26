@@ -1,6 +1,7 @@
 package com.taquangkhoi.keisic;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,14 @@ import androidx.annotation.Nullable;
 
 import com.taquangkhoi.keisic.myroom.Scrobble;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
     private Context mContext;
     private int mResource;
+    private final String TAG = "ScrobbleAdapter";
 
     public ScrobbleAdapter(@NonNull Context context, int resource) {
         super(context, resource);
@@ -42,14 +48,39 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
         }
         tvNameSong.setText(song.getName());
         tvArtist.setText(song.getArtist());
-        tvTime.setText(song.getListenTime());
+        tvTime.setText(getMinuteAndSecond(song.getListenTime()));
 
         return customView;
     }
 
     // Func to return time as minute and second
-    private void getMinuteAndSecond(String time) {
+    private String getMinuteAndSecond(String time) {
         //turn String to time
-        int timeInt = Integer.parseInt(time);
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(time);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+            long diff = currentTimestamp.getTime() - timestamp.getTime();
+            //turn time to minute and second
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+            if (diffDays > 0) {
+                return diffDays + " ngày trước";
+            } else if (diffHours > 0) {
+                return diffHours + " giờ trước";
+            } else if (diffMinutes > 0) {
+                return diffMinutes + " phút trước";
+            } else if (diffSeconds > 0) {
+                return diffSeconds + " giây trước";
+            } else {
+                return "Vừa xong";
+            }
+        } catch(Exception e) { //this generic but you can control another types of exception
+            // look the origin of excption
+        }
+        return "";
     }
 }
