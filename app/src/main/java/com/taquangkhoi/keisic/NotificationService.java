@@ -111,7 +111,6 @@ public class NotificationService extends NotificationListenerService {
                 String ts = sdf.format(timestamp);
                 Log.i(TAG, "Current Time is:  " + ts);
 
-
                 addSong(songNameExtras, artistExtras, ts);
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());

@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             String temp = intent.getStringExtra("package");
-            Log.i("NotificationReceiver", "onReceive: " + temp);
+            Log.i(TAG, "NotificationReceiver onReceive: " + temp);
         }
     }
 

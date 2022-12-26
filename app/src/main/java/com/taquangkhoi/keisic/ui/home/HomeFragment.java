@@ -1,5 +1,9 @@
 package com.taquangkhoi.keisic.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,16 +17,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.taquangkhoi.keisic.MainActivity;
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
+import com.taquangkhoi.keisic.services.MyListener;
 
 import java.util.List;
 import java.util.TimerTask;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements MyListener {
 
     private FragmentHomeBinding binding;
 
@@ -31,6 +37,9 @@ public class HomeFragment extends Fragment {
     TextView textView;
 
     ScrobbleAdapter scrobbleAdapter;
+    private NotificationReceiver nReceiver;
+
+    private static final String TAG = "HomeFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +58,8 @@ public class HomeFragment extends Fragment {
 
         addDataToScrobblesListView();
 
+        addReceiver();
+
         return root;
     }
 
@@ -63,6 +74,11 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void setValue(String packageName) {
+        Log.d("HomeFragment", "setValue: " + packageName);
     }
 
     class MyTask extends TimerTask {
@@ -84,5 +100,21 @@ public class HomeFragment extends Fragment {
 
         // Đặt adapter cho ListView
         listView.setAdapter(scrobbleAdapter);
+    }
+
+    class NotificationReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String temp = intent.getStringExtra("package");
+            Log.i(TAG , "NotificationReceiver "+ "onReceive: " + temp);
+            scrobbleAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void addReceiver() {
+        nReceiver = new NotificationReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("Msg");
+        getContext().registerReceiver(nReceiver, filter);
     }
 }
