@@ -9,23 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.taquangkhoi.keisic.MainActivity;
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
-import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.services.MyListener;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class HomeFragment extends Fragment implements MyListener {
@@ -36,7 +34,7 @@ public class HomeFragment extends Fragment implements MyListener {
     HomeViewModel homeViewModel;
     TextView textView;
 
-    ScrobbleAdapter scrobbleAdapter;
+
     private NotificationReceiver nReceiver;
 
     private static final String TAG = "HomeFragment";
@@ -52,11 +50,19 @@ public class HomeFragment extends Fragment implements MyListener {
         View root = binding.getRoot();
         textView = binding.textHome;
         listView = binding.listView;
-        scrobbleAdapter = new ScrobbleAdapter(getContext(), R.layout.layout_item_scrobble_list_view);
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        addDataToScrobblesListView();
+        //addDataToScrobblesListView();
+
+        homeViewModel.setScrobbleAdapter(getContext());
+        homeViewModel.getScrobbles().observe(getViewLifecycleOwner(), scrobbles -> {
+            Log.i(TAG, "onChanged: " + scrobbles.size());
+            ScrobbleAdapter scrobbleAdapter = new ScrobbleAdapter(getContext(), R.layout.layout_item_scrobble_list_view);
+            scrobbleAdapter.addAll(scrobbles);
+            listView.setAdapter(scrobbleAdapter);
+        });
+        //homeViewModel.getScrobbleAdapter().observe(getViewLifecycleOwner(), listView::setAdapter);
 
         addReceiver();
 
@@ -93,13 +99,10 @@ public class HomeFragment extends Fragment implements MyListener {
      */
     public void addDataToScrobblesListView() {
         // Bắt đầu thêm data từ SQLite
-        List<Scrobble> list = KeisicDatabase.getInstance(getContext()).scrobbleDao().getAll();
-        for (Scrobble scrobble : list) {
-            scrobbleAdapter.add(scrobble);
-        }
+
 
         // Đặt adapter cho ListView
-        listView.setAdapter(scrobbleAdapter);
+        //listView.setAdapter(scrobbleAdapter);
     }
 
     class NotificationReceiver extends BroadcastReceiver {
@@ -108,7 +111,11 @@ public class HomeFragment extends Fragment implements MyListener {
             String temp = intent.getStringExtra("package");
             String songName = intent.getStringExtra("song-name");
             String artistName = intent.getStringExtra("artist");
-            scrobbleAdapter.add(new Scrobble(songName, artistName));
+            Scrobble scrobble = new Scrobble(songName, artistName);
+
+            homeViewModel.addScrobble(scrobble, getContext());
+            homeViewModel.setText(songName + " - " + artistName);
+
             Log.i(TAG , "NotificationReceiver "+ "onReceive: " + temp + " : " + songName + " - " + artistName);
         }
     }

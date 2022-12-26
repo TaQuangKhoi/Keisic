@@ -1,10 +1,14 @@
 package com.taquangkhoi.keisic.ui.home;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.taquangkhoi.keisic.ScrobbleAdapter;
+import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.notification.MyNotification;
 
@@ -16,13 +20,17 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> mText;
     private ArrayList<MyNotification> myNotifications;
     public final MutableLiveData<Integer> count;
-    public final MutableLiveData<ScrobbleAdapter> scrobbleAdapter;
+    public MutableLiveData<ArrayList<Scrobble>> scrobblesList;
+
+    public static final String TAG = "HomeViewModel";
+
+    List<Scrobble> list;
 
     public HomeViewModel() {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
         myNotifications = new ArrayList<>();
-        scrobbleAdapter = new MutableLiveData<>();
+        scrobblesList = new MutableLiveData<ArrayList<Scrobble>>();
 
         myNotifications.add(new MyNotification("1", "1", "1"));
         myNotifications.add(new MyNotification("2", "2", "2"));
@@ -47,14 +55,27 @@ public class HomeViewModel extends ViewModel {
         this.count.setValue(count);
     }
 
-    public void setScrobbleAdapter(List<Scrobble> scrobbles) {
-        for (Scrobble scrobble : scrobbles) {
-            this.scrobbleAdapter.getValue().add(scrobble);
-        }
+    public void setScrobbleAdapter(Context context) {
+        list = KeisicDatabase.getInstance(context).scrobbleDao().getAll();
+        // turn List to ArrayList
+        ArrayList<Scrobble> arrayList = new ArrayList<Scrobble>(list);
+        arrayList.addAll(list);
+
+        Log.i(TAG, "setScrobbleAdapter: " + list.size());
+
+        this.scrobblesList.setValue(arrayList);
     }
 
-    public LiveData<ScrobbleAdapter> getScrobbleAdapter() {
-        return scrobbleAdapter;
+    public void addScrobble(Scrobble scrobble, Context context) {
+        Log.i(TAG, "addScrobble: " + scrobble.getName() + " " + scrobble.getArtist());
+        list = KeisicDatabase.getInstance(context).scrobbleDao().getAll();
+        ArrayList<Scrobble> arrayList = new ArrayList<Scrobble>(list);
+
+        this.scrobblesList.setValue(arrayList);
+    }
+
+    public LiveData<ArrayList<Scrobble>> getScrobblesList() {
+        return scrobblesList;
     }
 
     public ArrayList<MyNotification> getNotifications() {
@@ -67,5 +88,9 @@ public class HomeViewModel extends ViewModel {
             strings.add(myNotification.getTitle());
         }
         return strings;
+    }
+
+    public LiveData<ArrayList<Scrobble>> getScrobbles() {
+        return scrobblesList;
     }
 }
