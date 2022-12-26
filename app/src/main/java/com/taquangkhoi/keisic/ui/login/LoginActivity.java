@@ -2,6 +2,7 @@ package com.taquangkhoi.keisic.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         user = mAuth.getCurrentUser();
         if (user != null) {
-            signInDirectly();
+            signInDirectly(user.getDisplayName(), user.getUid(), null);
             Log.i("LoginActivity", "User is signed in");
             //reload();
         }
@@ -150,14 +151,13 @@ public class LoginActivity extends AppCompatActivity {
             switch (currentMode) {
                 case LOGIN_MODE:
                     loadingProgressBar.setVisibility(View.VISIBLE);
-
                     mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString())
                             .addOnCompleteListener(LoginActivity.this, task -> {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithEmail:success");
                                     user = mAuth.getCurrentUser();
-                                    signInDirectly();
+                                    signInDirectly(null, null, user.getEmail());
                                     //updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -168,7 +168,6 @@ public class LoginActivity extends AppCompatActivity {
                                     //updateUI(null);
                                 }
                             });
-
                     break;
                 case REGISTER_MODE:
                     loadingProgressBar.setVisibility(View.VISIBLE);
@@ -203,11 +202,18 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Create an Intent with data form FirebaseUser and go to MainActivity
      */
-    private void signInDirectly() {
+    private void signInDirectly(@Nullable String username, @Nullable String uid, @Nullable String email) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         // add extra data
-        intent.putExtra("username", user.getDisplayName());
-        intent.putExtra("UID", user.getUid());
+        if (username != null) {
+            intent.putExtra("username", username);
+        }
+        if (uid != null) {
+            intent.putExtra("uid", uid);
+        }
+        if (email != null) {
+            intent.putExtra("email", email);
+        }
         startActivity(intent);
     }
 
