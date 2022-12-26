@@ -10,7 +10,7 @@
 
     <string name="menu_scrobbles" translatable="false">Scrobbles</string>
     <string name="menu_loved" translatable="false">Loved</string>
-    <string name="menu_friends" translatable="false">Friends</string>
+    <string name="menu_friends" translatable="false">Chart</string>
     <string name="menu_chart">Chart</string>
     <string name="channel_name" translatable="false">keisic</string>
     <string name="channel_description" translatable="false">channel of keisic app</string>

@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         // menu should be considered as top level destinations.
         // Thiết lập cho NavigationUI
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_scrobbles, R.id.nav_loved, R.id.nav_friends)
+                R.id.nav_scrobbles, R.id.nav_loved, R.id.nav_charts)
                 .setOpenableLayout(drawer)
                 .build();
 
@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
     @Override
     public boolean onSupportNavigateUp() {
+        Log.i(TAG, "onSupportNavigateUp: ");
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)

@@ -1,4 +1,4 @@
-package com.taquangkhoi.keisic.ui.slideshow;
+package com.taquangkhoi.keisic.ui.chart;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.taquangkhoi.keisic.ui.gallery;
+package com.taquangkhoi.keisic.ui.loved;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

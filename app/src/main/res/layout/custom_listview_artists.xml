@@ -7,7 +7,7 @@
         android:id="@+id/img_example"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/kodcviethoa"
+        android:src="@drawable/ko_dc_viet_hoa"
         android:background="@drawable/bogoc_img_example_in_custom_listivew_artists"/>
 
     <LinearLayout
