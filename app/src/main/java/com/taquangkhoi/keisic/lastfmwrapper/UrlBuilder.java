@@ -35,6 +35,7 @@ public class UrlBuilder {
         String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=track.getInfo")
                 .buildUpon()
                 .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("username", "taquangkhoi")
                 .appendQueryParameter("track", songName)
                 .appendQueryParameter("artist", artist != null ? artist.split(", ")[0] : "")
                 .appendQueryParameter("format", "json")

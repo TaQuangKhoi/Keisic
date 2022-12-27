@@ -63,7 +63,7 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
-        Toast.makeText(this, "Notification Service Connected", Toast.LENGTH_LONG).show();
+        Log.i(TAG, "onListenerConnected: Notification Service Connected");
     }
 
     @Override
@@ -146,8 +146,8 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
-        Toast.makeText(context, "Notification Removed", Toast.LENGTH_LONG).show();
-        Log.i("Msg", "Notification Removed");
+
+        Log.i("Msg", "Notification Removed of : " + sbn.getPackageName());
     }
 
     @Override

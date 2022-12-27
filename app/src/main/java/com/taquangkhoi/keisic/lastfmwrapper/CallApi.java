@@ -83,6 +83,12 @@ public class CallApi {
                     String songPlaycount = obj.getJSONObject("track").getString("playcount");
                     bundle.putString("song-playcount", songPlaycount);
 
+                    String songListeners = obj.getJSONObject("track").getString("listeners");
+                    bundle.putString("song-listeners", songListeners);
+
+                    String userPlaycount = obj.getJSONObject("track").getString("userplaycount");
+                    bundle.putString("user-playcount", userPlaycount);
+
                     Log.i(TAG, "getTrackInfo run: bundle " + bundle.toString());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();

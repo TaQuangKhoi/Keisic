@@ -82,7 +82,12 @@ public class HomeFragment extends Fragment implements MyListener {
 
         TextView tvwTitleSong = bottomSheetDialog.findViewById(R.id.tvw_title_bottom_sheet);
         TextView tvwArtist = bottomSheetDialog.findViewById(R.id.tvw_artist_bottom_sheet);
+
         TextView tvwSongScrobble = bottomSheetDialog.findViewById(R.id.tvw_song_scrobble_bottom_sheet);
+        TextView tvwSongListener = bottomSheetDialog.findViewById(R.id.tvw_song_listener_bottom_sheet);
+        TextView tvwSongMyScrobble = bottomSheetDialog.findViewById(R.id.tvw_song_my_scrobble_bottom_sheet);
+
+
         TextView tvwArtistScrobble = bottomSheetDialog.findViewById(R.id.tvw_artist_scrobble_bottom_sheet);
 
         tvwTitleSong.setText(scrobble.getName());
@@ -92,6 +97,8 @@ public class HomeFragment extends Fragment implements MyListener {
         Log.i(TAG, "showBottomSheetDialog: " + bundle.getString("name"));
 
         tvwSongScrobble.setText(bundle.getString("song-playcount"));
+        tvwSongListener.setText(bundle.getString("song-listeners"));
+        tvwSongMyScrobble.setText(bundle.getString("user-playcount"));
 
         bottomSheetDialog.show();
     }

@@ -41,7 +41,6 @@
                     android:layout_height="wrap_content"
                     android:text="My scrobbles" />
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -69,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:text="Listeners" />
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -96,8 +94,8 @@
                     android:layout_height="wrap_content"
                     android:text="Scrobbles" />
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 
