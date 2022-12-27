@@ -4,22 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.taquangkhoi.keisic.ui.data.ChartItemAdapter;
+import com.taquangkhoi.keisic.ui.chart.ChartViewModel;
 
 public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder> {
     private Context context;
     private static final String TAG = "PeriodAdapter";
-    private String[] mPeriods = {"Overall", "7 days", "1 month", "3 months", "6 months", "1 year"};
+    private String[] mPeriodsKey = {"overall", "7day", "1month", "3month", "6month", "12month"};
+    private String[] mPeriodsValue = {"Overall", "7 days", "1 month", "3 months", "6 months", "12 months"};
+    private ChartViewModel chartViewModel;
 
-    public PeriodAdapter(Context context) {
+    public PeriodAdapter(Context context, ChartViewModel chartViewModel) {
         this.context = context;
+        this.chartViewModel = chartViewModel;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
@@ -48,12 +50,20 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            itemClickListener.onClick(v, getAdapterPosition(), false);
+            try {
+                itemClickListener.onClick(v, getAdapterPosition(), false);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            itemClickListener.onClick(v, getAdapterPosition(), true);
+            try {
+                itemClickListener.onClick(v, getAdapterPosition(), true);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return true;
         }
     }
@@ -72,17 +82,20 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String[] periods = mPeriods;
+        String[] periodsKey = mPeriodsKey;
+        String[] periodsValue = mPeriodsValue;
 
-        holder.title.setText(periods[position]);
+        holder.title.setText(periodsValue[position]);
         holder.setItemClickListener(new ItemClickListener() {
             @Override
-            public void onClick(View view, int position, boolean isLongClick) {
+            public void onClick(View view, int position, boolean isLongClick) throws InterruptedException {
                 if (isLongClick) {
                     //Do nothing
                     Toast.makeText(context, "Long click", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Short click", Toast.LENGTH_SHORT).show();
+                    chartViewModel.setPeriod(periodsKey[position]);
+                    chartViewModel.setChartItemList_Albums();
+                    Toast.makeText(context, chartViewModel.getPeriod().getValue(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -26,11 +26,14 @@ public class ChartViewModel extends ViewModel {
 
     CallApi callApi;
 
-    private String period = "7day";
+    private MutableLiveData<String> period;
 
     public ChartViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
+
+        period = new MutableLiveData<>();
+        period.setValue("7day");
 
         chartItemList_Artists = new MutableLiveData<>();
         chartItemList_Albums = new MutableLiveData<>();
@@ -49,7 +52,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemAdapter_Artists() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter: ");
-        listArtists = callApi.getTopArtist(period);
+        listArtists = callApi.getTopArtist(period.getValue());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listArtists) {
             chartItems.add(chartItem);
@@ -65,7 +68,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemAdapter_Tracks() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter_Tracks: start ");
-        listTracks = callApi.getTopTracks(period);
+        listTracks = callApi.getTopTracks(period.getValue());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listTracks) {
             chartItems.add(chartItem);
@@ -85,7 +88,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemList_Albums() throws InterruptedException {
         Log.i(TAG, "setChartItemList_Albums: start");
-        listAlbums = callApi.getTopAlbums(period);
+        listAlbums = callApi.getTopAlbums(period.getValue());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listAlbums) {
             chartItems.add(chartItem);
@@ -97,5 +100,17 @@ public class ChartViewModel extends ViewModel {
     public LiveData<ArrayList<ChartItem>> getChartItemList_Albums() {
         Log.i(TAG, "getChartItemList: " + chartItemList_Albums.getValue().size());
         return chartItemList_Albums;
+    }
+
+    public LiveData<String> getPeriod() {
+        return period;
+    }
+
+    public String getPeriodValue() {
+        return period.getValue();
+    }
+
+    public void setPeriod(String period) {
+        this.period.setValue(period);
     }
 }

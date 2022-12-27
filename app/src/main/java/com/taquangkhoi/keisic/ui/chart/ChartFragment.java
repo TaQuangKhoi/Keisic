@@ -121,7 +121,7 @@ public class ChartFragment extends Fragment {
         periods.add("6 months");
         periods.add("1 year");
 
-        rcvPeriod.setAdapter(new PeriodAdapter(getContext()));
+        rcvPeriod.setAdapter(new PeriodAdapter(getContext(), chartViewModel));
         rcvPeriod.setLayoutManager(
                 new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)
         );
