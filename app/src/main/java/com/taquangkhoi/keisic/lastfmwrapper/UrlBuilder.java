@@ -90,4 +90,27 @@ public class UrlBuilder {
         Log.i(TAG, "buildGetArtistInfo urlSearch: " + urlSearch);
         return urlSearch;
     }
+
+
+    /**
+     * @param username TaQuangKhoi
+     * @param period 7day, 1month, 3month, 6month, 12month, overall
+     * @return urlSearch
+     */
+    public static String buildGetTopArtist(String username, String period) {
+        Log.i(TAG, "buildGetTopArtist: username is " + username + " period is " + period);
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=user.gettopartists")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("user", username)
+                .appendQueryParameter("period", period)
+                .appendQueryParameter("format", "json")
+                .build()
+                .toString();
+
+        Log.i(TAG, "buildGetArtistTopTracks urlSearch: " + urlSearch);
+        return urlSearch;
+    }
+
+
 }

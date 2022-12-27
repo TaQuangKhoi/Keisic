@@ -61,9 +61,13 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
             String newPartten = "dd MMM yyyy, HH:mm";
             SimpleDateFormat dateFormat = new SimpleDateFormat(newPartten);
             Date parsedDate = dateFormat.parse(time);
+
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
             long diff = currentTimestamp.getTime() - timestamp.getTime();
+            Log.i(TAG, "getMinuteAndSecond: diff " + diff + " timestamp " + timestamp + " current " + currentTimestamp);
+
             //turn time to minute and second
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;

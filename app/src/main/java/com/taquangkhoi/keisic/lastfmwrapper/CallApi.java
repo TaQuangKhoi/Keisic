@@ -195,4 +195,44 @@ public class CallApi {
         Log.i(TAG, "getArtistInfo after thread: bundle " + bundle);
         return bundle;
     }
+
+    public List<ChartItem> getTopArtist() throws InterruptedException {
+        Log.i(TAG, "getTopArtist: start");
+        List<ChartItem> chartItemList = new ArrayList<>();
+        final String[] response = {null};
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(UrlBuilder.buildGetTopArtist("TaQuangKhoi", "7day"));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getTopArtist run: json " + obj);
+
+                    JSONArray trackArray = obj.getJSONObject("topartists").getJSONArray("artist");
+                    for (int i = 0; i < trackArray.length(); i++) {
+                        JSONObject track = trackArray.getJSONObject(i);
+                        Log.i(TAG, "getTopArtist run: track " + track.toString());
+
+                        String artistName = track.getString("name");
+                        String artistPlaycount = track.getString("playcount");
+
+                        Log.i(TAG, "getTopArtist run: artist " + artistName + " playcount " + artistPlaycount);
+
+                        chartItemList.add(new ChartItem(0, artistName, Long.parseLong(artistPlaycount)));
+                    }
+                    Log.i(TAG, "getTopArtist run: chartItemList " + chartItemList.size());
+                    Log.i(TAG, "getTopArtist run: json " + obj.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        thread.join();
+
+        return chartItemList;
+    }
 }

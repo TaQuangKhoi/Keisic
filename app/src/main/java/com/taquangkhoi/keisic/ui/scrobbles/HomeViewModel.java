@@ -32,7 +32,7 @@ public class HomeViewModel extends ViewModel {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
         myNotifications = new ArrayList<>();
-        scrobblesList = new MutableLiveData<ArrayList<Scrobble>>();
+        scrobblesList = new MutableLiveData<>();
         callApi = new CallApi();
 
 
