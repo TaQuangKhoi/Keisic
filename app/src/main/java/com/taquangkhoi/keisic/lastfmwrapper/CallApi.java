@@ -206,7 +206,7 @@ public class CallApi {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(UrlBuilder.buildGetTopArtist("TaQuangKhoi", "7day"));
+                    response[0] = runTest(UrlBuilder.buildGetTopArtists("TaQuangKhoi", "7day"));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "getTopArtist run: json " + obj);
@@ -225,6 +225,88 @@ public class CallApi {
                     }
                     Log.i(TAG, "getTopArtist run: chartItemList " + chartItemList.size());
                     Log.i(TAG, "getTopArtist run: json " + obj.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        thread.join();
+
+        return chartItemList;
+    }
+
+    public List<ChartItem> getTopTracks(String period) throws  InterruptedException {
+        Log.i(TAG, "getTopTracks: start");
+        List<ChartItem> chartItemList = new ArrayList<>();
+        final String[] response = {null};
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(UrlBuilder.buildGetTopTracks("TaQuangKhoi", period));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getTopTracks run: json " + obj);
+
+                    JSONArray trackArray = obj.getJSONObject("toptracks").getJSONArray("track");
+                    for (int i = 0; i < trackArray.length(); i++) {
+                        JSONObject track = trackArray.getJSONObject(i);
+                        Log.i(TAG, "getTopTracks run: track " + track.toString());
+
+                        String songName = track.getString("name");
+                        String artistName = track.getJSONObject("artist").getString("name");
+                        String songPlaycount = track.getString("playcount");
+
+                        Log.i(TAG, "getTopTracks run: song " + songName + " artist " + artistName + " playcount " + songPlaycount);
+
+                        chartItemList.add(new ChartItem(1, songName, Long.parseLong(songPlaycount)));
+                    }
+                    Log.i(TAG, "getTopTracks run: chartItemList " + chartItemList.size());
+                    Log.i(TAG, "getTopTracks run: json " + obj.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        thread.join();
+
+        return chartItemList;
+    }
+
+    public List<ChartItem> getTopAlbums(String period) throws  InterruptedException {
+        Log.i(TAG, "getTopAlbums");
+        List<ChartItem> chartItemList = new ArrayList<>();
+        final String[] response = {null};
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(UrlBuilder.buildGetTopAlbums("TaQuangKhoi", period));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getTopAlbums run: json " + obj);
+
+                    JSONArray trackArray = obj.getJSONObject("topalbums").getJSONArray("album");
+                    for (int i = 0; i < trackArray.length(); i++) {
+                        JSONObject track = trackArray.getJSONObject(i);
+                        Log.i(TAG, "getTopAlbums run: track " + track.toString());
+
+                        String albumName = track.getString("name");
+                        String artistName = track.getJSONObject("artist").getString("name");
+                        String albumPlaycount = track.getString("playcount");
+
+                        Log.i(TAG, "getTopAlbums run: album " + albumName + " artist " + artistName + " playcount " + albumPlaycount);
+
+                        chartItemList.add(new ChartItem(2, albumName, Long.parseLong(albumPlaycount)));
+                    }
+                    Log.i(TAG, "getTopAlbums run: chartItemList " + chartItemList.size());
+                    Log.i(TAG, "getTopAlbums run: json " + obj.toString());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
