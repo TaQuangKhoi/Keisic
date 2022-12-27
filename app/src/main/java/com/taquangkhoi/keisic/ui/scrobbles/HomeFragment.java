@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.databinding.FragmentHomeBinding;
+import com.taquangkhoi.keisic.lastfmwrapper.CallApi;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.services.MyListener;
 
@@ -36,6 +38,8 @@ public class HomeFragment extends Fragment implements MyListener {
 
     private static final String TAG = "HomeFragment";
 
+    CallApi callApi;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // Lấy ViewModel từ HomeViewModel
@@ -46,8 +50,7 @@ public class HomeFragment extends Fragment implements MyListener {
 
         View root = binding.getRoot();
         listView = binding.listView;
-
-        //addDataToScrobblesListView();
+        callApi = new CallApi();
 
         homeViewModel.setScrobbleAdapter(getContext());
         homeViewModel.getScrobbles().observe(getViewLifecycleOwner(), scrobbles -> {
@@ -63,13 +66,13 @@ public class HomeFragment extends Fragment implements MyListener {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Scrobble scrobble = (Scrobble) parent.getItemAtPosition(position);
             Log.i(TAG, "onItemClick: " + scrobble.getName());
-            showBottomSheetDialog();
+            showBottomSheetDialog(scrobble);
         });
 
         return root;
     }
 
-    private void showBottomSheetDialog() {
+    private void showBottomSheetDialog(Scrobble scrobble) {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         bottomSheetDialog.setContentView(R.layout.scrobble_info);
 
