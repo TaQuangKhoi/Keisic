@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ public class ChartFragment extends Fragment {
 
     private @NonNull FragmentChartBinding binding;
     RecyclerView rcvArtists, rcvSongs, rcvAlbums, rcvPeriod;
+    TextView txtTotalArtists, txtTotalSongs, txtTotalAlbums;
     CallApi callApi;
     ChartViewModel chartViewModel;
     private static final String TAG = "ChartFragment";
@@ -39,9 +41,14 @@ public class ChartFragment extends Fragment {
         rcvSongs = binding.rcvSongs;
         rcvPeriod = binding.rcvPeriod;
 
+        txtTotalArtists = binding.tvwArtistTotal;
+        txtTotalSongs = binding.tvwTrackTotal;
+        txtTotalAlbums = binding.tvwAlbumTotal;
+
         callApi = new CallApi();
 
         addPeriodListView();
+
         addChartItemArtists();
         addChartItemTracks();
         addChartItemAlbums();
@@ -50,6 +57,8 @@ public class ChartFragment extends Fragment {
     }
 
     public void addChartItemArtists() {
+
+
         try {
             chartViewModel.setChartItemList_Artists();
             Log.i(TAG, "onCreateView: setChartItemAdapter_Artists ");
@@ -67,9 +76,14 @@ public class ChartFragment extends Fragment {
             );
             Log.i(TAG, "addChartItemArtists onChanged end: " + adapter.getItemCount());
         });
+
+        chartViewModel.getTotalTopArtists().observe(getViewLifecycleOwner(), integer -> {
+            txtTotalArtists.setText(integer + " Artists");
+        });
     }
 
     public void addChartItemTracks() {
+
         try {
             chartViewModel.setChartItemList_Tracks();
             Log.i(TAG, "onCreateView: setChartItemAdapter_Tracks");
@@ -87,9 +101,15 @@ public class ChartFragment extends Fragment {
             );
             Log.i(TAG, "onChanged: " + adapter.getItemCount());
         });
+
+        chartViewModel.getTotalTopTracks().observe(getViewLifecycleOwner(), integer -> {
+            txtTotalSongs.setText(integer + " Songs");
+        });
     }
 
     public void addChartItemAlbums() {
+
+
         try {
             chartViewModel.setChartItemList_Albums();
             Log.i(TAG, "onCreateView: setChartItemAdapter_Albums");
@@ -106,6 +126,10 @@ public class ChartFragment extends Fragment {
                     new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)
             );
             Log.i(TAG, "onChanged: " + adapter.getItemCount());
+        });
+
+        chartViewModel.getTotalTopAlbums().observe(getViewLifecycleOwner(), integer -> {
+            txtTotalAlbums.setText(integer + " Albums");
         });
     }
 

@@ -24,6 +24,10 @@ public class ChartViewModel extends ViewModel {
     List<ChartItem> listTracks;
     List<ChartItem> listAlbums;
 
+    private MutableLiveData<Integer> totalTopArtists;
+    private MutableLiveData<Integer> totalTopTracks;
+    private MutableLiveData<Integer> totalTopAlbums;
+
     CallApi callApi;
 
     private MutableLiveData<String> period;
@@ -39,6 +43,10 @@ public class ChartViewModel extends ViewModel {
         chartItemList_Albums = new MutableLiveData<>();
         chartItemList_Tracks = new MutableLiveData<>();
 
+        totalTopArtists = new MutableLiveData<>();
+        totalTopTracks = new MutableLiveData<>();
+        totalTopAlbums = new MutableLiveData<>();
+
         listArtists = new ArrayList<>();
         listTracks = new ArrayList<>();
         listAlbums = new ArrayList<>();
@@ -53,6 +61,7 @@ public class ChartViewModel extends ViewModel {
     public void setChartItemList_Artists() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter: ");
         listArtists = callApi.getTopArtist(period.getValue());
+        totalTopArtists.setValue(callApi.getTotalTopArtists());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listArtists) {
             chartItems.add(chartItem);
@@ -69,6 +78,7 @@ public class ChartViewModel extends ViewModel {
     public void setChartItemList_Tracks() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter_Tracks: start ");
         listTracks = callApi.getTopTracks(period.getValue());
+        totalTopTracks.setValue(callApi.getTotalTopTracks());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listTracks) {
             chartItems.add(chartItem);
@@ -89,6 +99,7 @@ public class ChartViewModel extends ViewModel {
     public void setChartItemList_Albums() throws InterruptedException {
         Log.i(TAG, "setChartItemList_Albums: start");
         listAlbums = callApi.getTopAlbums(period.getValue());
+        totalTopAlbums.setValue(callApi.getTotalTopAlbums());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listAlbums) {
             chartItems.add(chartItem);
@@ -112,5 +123,17 @@ public class ChartViewModel extends ViewModel {
 
     public void setPeriod(String period) {
         this.period.setValue(period);
+    }
+
+    public LiveData<Integer> getTotalTopArtists() {
+        return totalTopArtists;
+    }
+
+    public LiveData<Integer> getTotalTopTracks() {
+        return totalTopTracks;
+    }
+
+    public LiveData<Integer> getTotalTopAlbums() {
+        return totalTopAlbums;
     }
 }

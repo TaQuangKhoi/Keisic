@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.ui.data.ChartItem;
+import com.taquangkhoi.keisic.ui.scrobbles.HomeViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +24,9 @@ import okhttp3.Response;
 public class CallApi {
     private static final String TAG = "CallApi";
     final OkHttpClient client = new OkHttpClient();
+    public int totalTopTracks = 0;
+    public int totalTopArtists = 0;
+    public int totalTopAlbums = 0;
 
     private String runTest(String url) throws IOException {
         Request request = new Request.Builder()
@@ -211,14 +215,16 @@ public class CallApi {
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "getTopArtist run: json " + obj);
 
-                    JSONArray trackArray = obj.getJSONObject("topartists").getJSONArray("artist");
-                    for (int i = 0; i < trackArray.length(); i++) {
-                        JSONObject track = trackArray.getJSONObject(i);
+                    JSONArray artistArray = obj.getJSONObject("topartists").getJSONArray("artist");
+                    totalTopArtists = Integer.parseInt(obj.getJSONObject("topartists").getJSONObject("@attr").getString("total"));
+                    for (int i = 0; i < artistArray.length(); i++) {
+                        JSONObject track = artistArray.getJSONObject(i);
                         Log.i(TAG, "getTopArtist run: track " + track.toString());
 
                         String artistName = track.getString("name");
                         String artistPlaycount = track.getString("playcount");
                         String artistImageUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
+
 
                         Log.i(TAG, "getTopArtist run: artist " + artistName + " playcount " + artistPlaycount);
 
@@ -253,6 +259,7 @@ public class CallApi {
                     Log.i(TAG, "getTopTracks run: json " + obj);
 
                     JSONArray trackArray = obj.getJSONObject("toptracks").getJSONArray("track");
+                    totalTopTracks = Integer.parseInt(obj.getJSONObject("toptracks").getJSONObject("@attr").getString("total"));
                     for (int i = 0; i < trackArray.length(); i++) {
                         JSONObject track = trackArray.getJSONObject(i);
                         Log.i(TAG, "getTopTracks run: track " + track.toString());
@@ -261,6 +268,7 @@ public class CallApi {
                         String artistName = track.getJSONObject("artist").getString("name");
                         String songPlaycount = track.getString("playcount");
                         String someImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
+
 
                         Log.i(TAG, "getTopTracks run: song " + songName + " artist " + artistName + " playcount " + songPlaycount);
 
@@ -295,6 +303,7 @@ public class CallApi {
                     Log.i(TAG, "getTopAlbums run: json " + obj);
 
                     JSONArray trackArray = obj.getJSONObject("topalbums").getJSONArray("album");
+                    totalTopAlbums = Integer.parseInt(obj.getJSONObject("topalbums").getJSONObject("@attr").getString("total"));
                     for (int i = 0; i < trackArray.length(); i++) {
                         JSONObject track = trackArray.getJSONObject(i);
                         Log.i(TAG, "getTopAlbums run: track " + track.toString());
@@ -303,6 +312,7 @@ public class CallApi {
                         String artistName = track.getJSONObject("artist").getString("name");
                         String albumPlaycount = track.getString("playcount");
                         String albumImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
+
 
                         Log.i(TAG, "getTopAlbums run: album " + albumName + " artist " + artistName + " playcount " + albumPlaycount);
 
@@ -319,5 +329,29 @@ public class CallApi {
         thread.join();
 
         return chartItemList;
+    }
+
+    public int getTotalTopTracks() {
+        return totalTopTracks;
+    }
+
+    public void setTotalTopTracks(int totalTopTracks) {
+        this.totalTopTracks = totalTopTracks;
+    }
+
+    public int getTotalTopArtists() {
+        return totalTopArtists;
+    }
+
+    public void setTotalTopArtists(int totalTopArtists) {
+        this.totalTopArtists = totalTopArtists;
+    }
+
+    public int getTotalTopAlbums() {
+        return totalTopAlbums;
+    }
+
+    public void setTotalTopAlbums(int totalTopAlbums) {
+        this.totalTopAlbums = totalTopAlbums;
     }
 }
