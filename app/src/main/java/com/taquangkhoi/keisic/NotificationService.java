@@ -83,7 +83,6 @@ public class NotificationService extends NotificationListenerService {
         Toast.makeText(this, "Notification Service Connected", Toast.LENGTH_LONG).show();
     }
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return super.onBind(intent);
@@ -100,12 +99,9 @@ public class NotificationService extends NotificationListenerService {
         }
 
         Log.i(TAG, "Package name: " + pack);
-        if (pack.equals("com.spotify.music") ||
-                pack.equals("com.zing.mp3") ||
-                pack.equals("ht.nct")
-
-        ) {
+        if (pack.equals("com.spotify.music")) {
             Bundle extras = sbn.getNotification().extras;
+            stopSelf();
 
             // Kiểm tra xem có bao nhiêu key trong extras
 //            extras.keySet().forEach(key -> {
@@ -256,6 +252,12 @@ public class NotificationService extends NotificationListenerService {
         super.onNotificationRemoved(sbn);
         Toast.makeText(context, "Notification Removed", Toast.LENGTH_LONG).show();
         Log.i("Msg", "Notification Removed");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: ");
     }
 
     public void setListener(MyListener myListener) {

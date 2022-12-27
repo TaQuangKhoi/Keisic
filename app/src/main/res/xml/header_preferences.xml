@@ -12,4 +12,10 @@
         app:key="sync_header"
         app:title="@string/storage_header" />
 
+    <Preference
+        app:fragment="com.taquangkhoi.keisic.SettingsActivity$AppsFragment"
+        app:icon="@drawable/sync"
+        app:key="app_header"
+        app:title="Apps to Srcobble" />
+
 </PreferenceScreen>

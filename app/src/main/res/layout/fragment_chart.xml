@@ -70,6 +70,7 @@
         </LinearLayout>
 
         <ListView
+            android:id="@+id/lv_artists"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/line1"
@@ -118,6 +119,7 @@
         </LinearLayout>
 
         <ListView
+            android:id="@+id/lv_albums"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/line2"
@@ -163,6 +165,7 @@
         </LinearLayout>
 
         <ListView
+            android:id="@+id/lv_songs"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/line3"

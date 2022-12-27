@@ -4,24 +4,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.taquangkhoi.keisic.databinding.FragmentSlideshowBinding;
+import com.taquangkhoi.keisic.databinding.FragmentChartBinding;
 
 public class ChartFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private @NonNull FragmentChartBinding binding;
+    ListView lvArtists, lvSongs, lvAlbums;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        ChartViewModel slideshowViewModel =
+                new ViewModelProvider(this).get(ChartViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentChartBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        lvAlbums = binding.lvAlbums;
+        lvArtists = binding.lvArtists;
+        lvSongs = binding.lvSongs;
 
         //final TextView textView = binding.textSlideshow;
         //slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

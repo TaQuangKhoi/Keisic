@@ -3,7 +3,7 @@
     <MultiSelectListPreference
         app:entries="@array/storage_entries"
         app:entryValues="@array/storage_values"
-        app:key="multi_select_where_to_save"
+        app:key="multi_select_apps_to_scrobble"
         app:title="@string/storage_local" />
 
 </PreferenceScreen>
