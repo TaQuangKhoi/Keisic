@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -41,7 +40,7 @@ public class CallApi {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(UrlBuilder.buildUrlSearchTrack(songName, artist));
+                    response[0] = runTest(UrlBuilder.buildSearchTrack(songName, artist));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "run: " + obj.toString());
@@ -139,6 +138,48 @@ public class CallApi {
 
 
         return chartItemList;
+    }
 
+    public Bundle getArtistInfo(String artistName) throws InterruptedException {
+        final String[] response = {null};
+        Bundle bundle = new Bundle();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(UrlBuilder.buildGetArtistInfo(artistName, "TaQuangKhoi"));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getArtistInfo run: json " + obj.toString());
+
+                    String artistName = obj.getJSONObject("artist").getString("name");
+                    bundle.putString("artist-name", artistName);
+
+                    String artistUrl = obj.getJSONObject("artist").getString("url");
+                    bundle.putString("artist-url", artistUrl);
+
+                    String artistPlaycount = obj.getJSONObject("artist").getJSONObject("stats").getString("playcount");
+                    bundle.putString("artist-playcount", artistPlaycount);
+
+                    String artistListeners = obj.getJSONObject("artist").getJSONObject("stats").getString("listeners");
+                    bundle.putString("artist-listeners", artistListeners);
+
+                    String artistImage = obj.getJSONObject("artist").getJSONArray("image").getJSONObject(2).getString("#text");
+                    bundle.putString("artist-image", artistImage);
+
+                    String artistUserPlaycount = obj.getJSONObject("artist").getJSONObject("stats").getString("userplaycount");
+                    bundle.putString("artist-userplaycount", artistUserPlaycount);
+
+                    Log.i(TAG, "getArtistInfo run: bundle " + bundle.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        thread.join();
+        Log.i(TAG, "getArtistInfo after thread: bundle " + bundle);
+        return bundle;
     }
 }

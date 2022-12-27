@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,7 +64,7 @@ public class HomeFragment extends Fragment implements MyListener {
 
         addReceiver();
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
             Scrobble scrobble = (Scrobble) parent.getItemAtPosition(position);
             Log.i(TAG, "onItemClick: " + scrobble.getName());
             try {
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment implements MyListener {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            return false;
         });
 
         return root;
@@ -81,24 +83,37 @@ public class HomeFragment extends Fragment implements MyListener {
         bottomSheetDialog.setContentView(R.layout.scrobble_info);
 
         TextView tvwTitleSong = bottomSheetDialog.findViewById(R.id.tvw_title_bottom_sheet);
-        TextView tvwArtist = bottomSheetDialog.findViewById(R.id.tvw_artist_bottom_sheet);
 
         TextView tvwSongScrobble = bottomSheetDialog.findViewById(R.id.tvw_song_scrobble_bottom_sheet);
         TextView tvwSongListener = bottomSheetDialog.findViewById(R.id.tvw_song_listener_bottom_sheet);
         TextView tvwSongMyScrobble = bottomSheetDialog.findViewById(R.id.tvw_song_my_scrobble_bottom_sheet);
 
 
-        TextView tvwArtistScrobble = bottomSheetDialog.findViewById(R.id.tvw_artist_scrobble_bottom_sheet);
-
         tvwTitleSong.setText(scrobble.getName());
+
+        Bundle bundleSong = callApi.getTrackInfo(scrobble.getName(), scrobble.getArtist());
+        Log.i(TAG, "showBottomSheetDialog: " + bundleSong);
+
+        tvwSongScrobble.setText(bundleSong.getString("song-playcount"));
+        tvwSongListener.setText(bundleSong.getString("song-listeners"));
+        tvwSongMyScrobble.setText(bundleSong.getString("user-playcount"));
+
+        /* * * * */
+
+        TextView tvwArtist = bottomSheetDialog.findViewById(R.id.tvw_artist_bottom_sheet);
+
+        TextView tvwArtistScrobble = bottomSheetDialog.findViewById(R.id.tvw_artist_scrobble_bottom_sheet);
+        TextView tvwArtistListener = bottomSheetDialog.findViewById(R.id.tvw_artist_listener_bottom_sheet);
+        TextView tvwArtistMyScrobble = bottomSheetDialog.findViewById(R.id.tvw_artist_my_scrobble_bottom_sheet);
+
+        Bundle bundleArtist = callApi.getArtistInfo(scrobble.getArtist());
+        Log.i(TAG, "showBottomSheetDialog: " + bundleSong);
+
         tvwArtist.setText(scrobble.getArtist());
 
-        Bundle bundle = callApi.getTrackInfo( scrobble.getName(), scrobble.getArtist());
-        Log.i(TAG, "showBottomSheetDialog: " + bundle.getString("name"));
-
-        tvwSongScrobble.setText(bundle.getString("song-playcount"));
-        tvwSongListener.setText(bundle.getString("song-listeners"));
-        tvwSongMyScrobble.setText(bundle.getString("user-playcount"));
+        tvwArtistScrobble.setText(bundleArtist.getString("artist-playcount"));
+        tvwArtistListener.setText(bundleArtist.getString("artist-listeners"));
+        tvwArtistMyScrobble.setText(bundleArtist.getString("artist-userplaycount"));
 
         bottomSheetDialog.show();
     }
@@ -124,7 +139,7 @@ public class HomeFragment extends Fragment implements MyListener {
     class MyTask extends TimerTask {
         public void run() {
 //            homeViewModel.setCount(homeViewModel.getCount().getValue() + 1);
-            Log.d("TEST", "Hello, Im timer, running iteration: "+ homeViewModel.getCount().toString());
+            Log.d("TEST", "Hello, Im timer, running iteration: " + homeViewModel.getCount().toString());
         }
     }
 
@@ -150,7 +165,7 @@ public class HomeFragment extends Fragment implements MyListener {
             homeViewModel.addScrobble(scrobble, getContext());
             homeViewModel.setText(songName + " - " + artistName);
 
-            Log.i(TAG , "NotificationReceiver "+ "onReceive: " + temp + " : " + songName + " - " + artistName);
+            Log.i(TAG, "NotificationReceiver " + "onReceive: " + temp + " : " + songName + " - " + artistName);
         }
     }
 

@@ -12,7 +12,7 @@ public class UrlBuilder {
 
     private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
 
-    public static String buildUrlSearchTrack(String songName, @Nullable String artist) {
+    public static String buildSearchTrack(String songName, @Nullable String artist) {
         Log.i(TAG, "buildUrlSearchTrack: songInfo is " + songName + " - " + artist);
         // turn string to url
 
@@ -71,6 +71,23 @@ public class UrlBuilder {
                 .build().toString();
 
         Log.i(TAG, "buildGetTopTracks urlSearch: " + urlSearch);
+        return urlSearch;
+    }
+
+    /**
+     * @param artist name
+     * @return
+     */
+    public static String buildGetArtistInfo(String artist, String username) {
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=artist.getinfo")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("user", username)
+                .appendQueryParameter("artist", artist)
+                .appendQueryParameter("format", "json")
+                .build().toString();
+
+        Log.i(TAG, "buildGetArtistInfo urlSearch: " + urlSearch);
         return urlSearch;
     }
 }
