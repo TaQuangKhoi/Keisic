@@ -80,6 +80,9 @@ public class CallApi {
                     String songUrl = obj.getJSONObject("track").getString("url");
                     bundle.putString("song-url", songUrl);
 
+                    String songPlaycount = obj.getJSONObject("track").getString("playcount");
+                    bundle.putString("song-playcount", songPlaycount);
+
                     Log.i(TAG, "getTrackInfo run: bundle " + bundle.toString());
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();

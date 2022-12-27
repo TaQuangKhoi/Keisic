@@ -66,17 +66,32 @@ public class HomeFragment extends Fragment implements MyListener {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Scrobble scrobble = (Scrobble) parent.getItemAtPosition(position);
             Log.i(TAG, "onItemClick: " + scrobble.getName());
-            showBottomSheetDialog(scrobble);
+            try {
+                showBottomSheetDialog(scrobble);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
 
         return root;
     }
 
-    private void showBottomSheetDialog(Scrobble scrobble) {
+    private void showBottomSheetDialog(Scrobble scrobble) throws InterruptedException {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         bottomSheetDialog.setContentView(R.layout.scrobble_info);
 
-        TextView textView = bottomSheetDialog.findViewById(R.id.tvw_title_test);
+        TextView tvwTitleSong = bottomSheetDialog.findViewById(R.id.tvw_title_bottom_sheet);
+        TextView tvwArtist = bottomSheetDialog.findViewById(R.id.tvw_artist_bottom_sheet);
+        TextView tvwSongScrobble = bottomSheetDialog.findViewById(R.id.tvw_song_scrobble_bottom_sheet);
+        TextView tvwArtistScrobble = bottomSheetDialog.findViewById(R.id.tvw_artist_scrobble_bottom_sheet);
+
+        tvwTitleSong.setText(scrobble.getName());
+        tvwArtist.setText(scrobble.getArtist());
+
+        Bundle bundle = callApi.getTrackInfo( scrobble.getName(), scrobble.getArtist());
+        Log.i(TAG, "showBottomSheetDialog: " + bundle.getString("name"));
+
+        tvwSongScrobble.setText(bundle.getString("song-playcount"));
 
         bottomSheetDialog.show();
     }
