@@ -22,8 +22,8 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
         this.mChartItems = chartItems;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView title;
         private TextView scrobbles;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -7,8 +7,8 @@
     tools:context=".ui.chart.ChartFragment">
 
     <RelativeLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/lineAll"
@@ -26,8 +26,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
-            <ListView
-                android:id="@+id/listview_times"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_period"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:orientation="horizontal" />
@@ -50,7 +50,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:src="@drawable/microphone" />
 
                 <TextView
@@ -64,7 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:layout_weight="1"
                     android:text="See all"
                     android:textAlignment="textEnd"
@@ -103,7 +103,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:src="@drawable/compact_disc" />
 
                 <TextView
@@ -117,7 +117,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:layout_marginLeft="230dp"
                     android:text="See all"
                     android:textColor="#F2BACE" />
@@ -128,7 +128,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line2"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -149,7 +152,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:src="@drawable/music_note" />
 
                 <TextView
@@ -162,7 +165,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/listview_times"
+                    android:layout_below="@id/rcv_period"
                     android:layout_marginLeft="230dp"
                     android:text="See all"
                     android:textColor="#F2BACE" />

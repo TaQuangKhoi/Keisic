@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -13,15 +14,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.taquangkhoi.keisic.PeriodAdapter;
+import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.databinding.FragmentChartBinding;
 import com.taquangkhoi.keisic.lastfmwrapper.CallApi;
 import com.taquangkhoi.keisic.ui.data.ChartItemAdapter;
 
+import java.util.ArrayList;
+
 public class ChartFragment extends Fragment {
 
     private @NonNull FragmentChartBinding binding;
-    ListView lvArtists, lvSongs, lvAlbums;
-    RecyclerView rcvArtists, rcvSongs, rcvAlbums;
+    RecyclerView rcvArtists, rcvSongs, rcvAlbums, rcvPeriod;
     CallApi callApi;
     ChartViewModel chartViewModel;
     private static final String TAG = "ChartFragment";
@@ -36,9 +40,11 @@ public class ChartFragment extends Fragment {
         rcvArtists = binding.rcvArtists;
         rcvAlbums = binding.rcvAlbums;
         rcvSongs = binding.rcvSongs;
+        rcvPeriod = binding.rcvPeriod;
 
         callApi = new CallApi();
 
+        addPeriodListView();
         addChartItemArtists();
         addChartItemTracks();
         addChartItemAlbums();
@@ -104,6 +110,21 @@ public class ChartFragment extends Fragment {
             );
             Log.i(TAG, "onChanged: " + adapter.getItemCount());
         });
+    }
+
+    public void addPeriodListView() {
+        ArrayList<String> periods = new ArrayList<>();
+        periods.add("Overall");
+        periods.add("7 days");
+        periods.add("1 month");
+        periods.add("3 months");
+        periods.add("6 months");
+        periods.add("1 year");
+
+        rcvPeriod.setAdapter(new PeriodAdapter(getContext()));
+        rcvPeriod.setLayoutManager(
+                new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)
+        );
     }
 
     @Override
