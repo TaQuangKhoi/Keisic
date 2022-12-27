@@ -59,7 +59,6 @@ public class NotificationService extends NotificationListenerService {
         KeisicDatabase.getInstance(context);
     }
 
-
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
