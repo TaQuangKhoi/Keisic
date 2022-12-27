@@ -57,7 +57,9 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
     private String getMinuteAndSecond(String time) {
         //turn String to time
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            String oldPartten  = "yyyy-MM-dd HH:mm:ss.SSS";
+            String newPartten = "dd MMM yyyy, HH:mm";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(newPartten);
             Date parsedDate = dateFormat.parse(time);
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -67,6 +69,8 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000) % 24;
             long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            Log.i(TAG, "getMinuteAndSecond: " + diffDays + " " + diffHours + " " + diffMinutes + " " + diffSeconds);
             if (diffDays > 0) {
                 return diffDays + " ngày trước";
             } else if (diffHours > 0) {
@@ -79,8 +83,9 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
                 return "Vừa xong";
             }
         } catch(Exception e) { //this generic but you can control another types of exception
+            Log.i(TAG, "getMinuteAndSecond Error: " + e.getMessage());
             // look the origin of excption
         }
-        return "";
+        return "Now Playing";
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.taquangkhoi.keisic.lastfmwrapper.CallApi;
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.notification.MyNotification;
@@ -25,11 +26,15 @@ public class HomeViewModel extends ViewModel {
 
     List<Scrobble> list;
 
+    CallApi callApi;
+
     public HomeViewModel() {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
         myNotifications = new ArrayList<>();
         scrobblesList = new MutableLiveData<ArrayList<Scrobble>>();
+        callApi = new CallApi();
+
 
         myNotifications.add(new MyNotification("1", "1", "1"));
         myNotifications.add(new MyNotification("2", "2", "2"));
@@ -54,8 +59,9 @@ public class HomeViewModel extends ViewModel {
         this.count.setValue(count);
     }
 
-    public void setScrobbleAdapter(Context context) {
-        list = KeisicDatabase.getInstance(context).scrobbleDao().getAll();
+    public void setScrobbleAdapter(Context context) throws InterruptedException {
+        Log.i(TAG, "setScrobbleAdapter: ");
+        list = callApi.getRecentTrack();
         // turn List to ArrayList
         ArrayList<Scrobble> arrayList = new ArrayList<Scrobble>(list);
         arrayList.addAll(list);
@@ -65,10 +71,10 @@ public class HomeViewModel extends ViewModel {
         this.scrobblesList.setValue(arrayList);
     }
 
-    public void addScrobble(Scrobble scrobble, Context context) {
+    public void addScrobble(Scrobble scrobble, Context context) throws InterruptedException {
         Log.i(TAG, "addScrobble: " + scrobble.getName() + " " + scrobble.getArtist());
-        list = KeisicDatabase.getInstance(context).scrobbleDao().getAll();
-        ArrayList<Scrobble> arrayList = new ArrayList<Scrobble>(list);
+        list = callApi.getRecentTrack();
+        ArrayList<Scrobble> arrayList = new ArrayList<>(list);
 
         this.scrobblesList.setValue(arrayList);
     }
@@ -91,5 +97,9 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<ArrayList<Scrobble>> getScrobbles() {
         return scrobblesList;
+    }
+
+    public List<Scrobble> getSongsFromDB(Context context) {
+        return KeisicDatabase.getInstance(context).scrobbleDao().getAll();
     }
 }

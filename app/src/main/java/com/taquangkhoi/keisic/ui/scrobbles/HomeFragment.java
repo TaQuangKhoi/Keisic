@@ -53,7 +53,11 @@ public class HomeFragment extends Fragment implements MyListener {
         listView = binding.listView;
         callApi = new CallApi();
 
-        homeViewModel.setScrobbleAdapter(getContext());
+        try {
+            homeViewModel.setScrobbleAdapter(getContext());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         homeViewModel.getScrobbles().observe(getViewLifecycleOwner(), scrobbles -> {
             Log.i(TAG, "onChanged: " + scrobbles.size());
             ScrobbleAdapter scrobbleAdapter = new ScrobbleAdapter(getContext(), R.layout.layout_item_scrobble_list_view);
@@ -162,7 +166,11 @@ public class HomeFragment extends Fragment implements MyListener {
             String artistName = intent.getStringExtra("artist");
             Scrobble scrobble = new Scrobble(songName, artistName);
 
-            homeViewModel.addScrobble(scrobble, getContext());
+            try {
+                homeViewModel.addScrobble(scrobble, getContext());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             homeViewModel.setText(songName + " - " + artistName);
 
             Log.i(TAG, "NotificationReceiver " + "onReceive: " + temp + " : " + songName + " - " + artistName);

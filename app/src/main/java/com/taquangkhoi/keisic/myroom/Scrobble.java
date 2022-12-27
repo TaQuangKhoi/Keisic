@@ -50,6 +50,12 @@ public class Scrobble {
         this.endTime = "";
     }
 
+    public Scrobble(String name, String artist, String listenTime) {
+        this.name = name;
+        this.artist = artist;
+        this.listenTime = listenTime;
+        this.path = path;
+    }
 
     public Scrobble(String name, String artist, String listenTime, String path) {
         this.name = name;

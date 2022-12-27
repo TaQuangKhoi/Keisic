@@ -35,11 +35,11 @@ public class ChartFragment extends Fragment {
 
         callApi = new CallApi();
 
-        try {
-            List<ChartItem> list= callApi.getRecentTrack();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<ChartItem> list= callApi.getRecentTrack();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         //final TextView textView = binding.textSlideshow;
         //slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

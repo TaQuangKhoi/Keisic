@@ -5,6 +5,7 @@ import static java.lang.Long.parseLong;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.ui.data.ChartItem;
 
 import org.json.JSONArray;
@@ -100,8 +101,9 @@ public class CallApi {
         return bundle;
     }
 
-    public List<ChartItem> getRecentTrack() throws InterruptedException {
-        List<ChartItem> chartItemList = new ArrayList<>();
+    public List<Scrobble> getRecentTrack() throws InterruptedException {
+        Log.i(TAG, "getRecentTrack: start");
+        List<Scrobble> chartItemList = new ArrayList<>();
         final String[] response = {null};
 
         Thread thread = new Thread() {
@@ -120,11 +122,23 @@ public class CallApi {
 
                         String songName = track.getString("name");
                         String artistName = track.getJSONObject("artist").getString("#text");
+
+                        String listenTime = "";
+                        track.isNull("date");
+
+                        if (track.isNull("date")) {
+                            Log.i(TAG, "getRecentTrack run: now playing " + songName + " " + artistName);
+                            Log.i(TAG, "getRecentTrack run: nowplaying " + track.getJSONObject("@attr").getString("nowplaying"));
+                            listenTime = "now playing";
+                        } else {
+                            Log.i(TAG, "getRecentTrack run: not playing " + songName + " " + artistName);
+                            listenTime = track.getJSONObject("date").getString("#text");
+                        }
+                        Log.i(TAG, "getRecentTrack run: listen time " + listenTime);
+
                         Log.i(TAG, "getRecentTrack run: artist " + artistName + " song " + songName);
-                        //String songUrl = track.getString("url");
-                        //String songDuration = track.getString("playcount");
-                        //String songImage = track.getJSONArray("image").getJSONObject(2).getString("#text");
-                        //chartItemList.add(new ChartItem(0, songName, Long.parseLong(songDuration)));
+
+                        chartItemList.add(new Scrobble(songName, artistName, listenTime));
                     }
                     Log.i(TAG, "getRecentTrack run: chartItemList " + chartItemList.size());
                     Log.i(TAG, "getTrackInfo run: json " + obj.toString());
@@ -135,7 +149,6 @@ public class CallApi {
         };
         thread.start();
         thread.join();
-
 
         return chartItemList;
     }
