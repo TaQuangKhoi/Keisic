@@ -1,15 +1,18 @@
 package com.taquangkhoi.keisic.ui.data;
 
+import androidx.annotation.Nullable;
+
 public class ChartItem {
     private int imageId;
     private String title;
     private String artist;
     private long playcount;
 
-    public ChartItem(int image, String title, String artist, long playcount) {
-        this.imageId = image;
+    public ChartItem(@Nullable int image, String title, long playcount) {
+        if (image != 0) {
+            this.imageId = image;
+        }
         this.title = title;
-        this.artist = artist;
         this.playcount = playcount;
     }
 

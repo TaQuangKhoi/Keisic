@@ -43,4 +43,33 @@ public class UrlBuilder {
         Log.i(TAG, "buildUrlGetTrackInfo urlSearch: " + urlSearch);
         return urlSearch;
     }
+
+    public static String buildGetRecentTracks() {
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("user", "taquangkhoi")
+                .appendQueryParameter("format", "json")
+                .build().toString();
+
+        Log.i(TAG, "buildGetRecentTracks urlSearch: " + urlSearch);
+        return urlSearch;
+    }
+
+    /**
+     * @param period 7day, 1month, 3month, 6month, 12month, overall
+     * @return
+     */
+    public static String buildGetTopTracks(String period) {
+        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("user", "taquangkhoi")
+                .appendQueryParameter("period", period)
+                .appendQueryParameter("format", "json")
+                .build().toString();
+
+        Log.i(TAG, "buildGetTopTracks urlSearch: " + urlSearch);
+        return urlSearch;
+    }
 }

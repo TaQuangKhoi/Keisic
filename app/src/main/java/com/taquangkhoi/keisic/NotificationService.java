@@ -3,8 +3,6 @@ package com.taquangkhoi.keisic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
@@ -12,29 +10,17 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
-import com.taquangkhoi.keisic.lastfmwrapper.UrlBuilder;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.taquangkhoi.keisic.lastfmwrapper.CallApi;
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
 import com.taquangkhoi.keisic.ui.scrobbles.HomeViewModel;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class NotificationService extends NotificationListenerService {
     Context context;
@@ -45,13 +31,12 @@ public class NotificationService extends NotificationListenerService {
     private static final String userAgent = "Keisic";
     private static final String lastFmApiSecret = BuildConfig.LAST_FM_SHARED_SECRET;
     String[] appToScrobbling;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
-    String secret = lastFmApiSecret;   // api secret
-    String user = "TaQuangKhoi";     // user name
-    String password = "..."; // user's password
+    CallApi callApi = new CallApi();
 
-    final OkHttpClient client = new OkHttpClient();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("scrobbles");
 
     @Override
     public void onCreate() {
@@ -62,7 +47,6 @@ public class NotificationService extends NotificationListenerService {
         Log.i(TAG, "onCreate : Notification Service Created");
 
         currentSong = new Song();
-
 
         //Session session = Authenticator.getMobileSession(user, password, key, secret);
         //Playlist playlist = Playlist.create("example playlist", "description", session);
@@ -131,11 +115,12 @@ public class NotificationService extends NotificationListenerService {
                 Log.i(TAG, "Current Time is:  " + ts);
                 Bundle bundle = null;
                 try {
-                    bundle = getTrackInfo(songNameExtras, artistExtras);
+                    bundle = callApi.getTrackInfo(songNameExtras, artistExtras);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                addSong(songNameExtras, artistExtras, ts, bundle.getString("song-url"));
+                addSongToDB(songNameExtras, artistExtras, ts, bundle.getString("song-url"));
+                addSongToFirbase(songNameExtras, artistExtras, ts, bundle.getString("song-url"));
                 currentSong.setName(extras.get("android.title").toString());
                 currentSong.setArtist(extras.get("android.text").toString());
                 currentSong.setStartTime(new Date());
@@ -156,63 +141,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    public void searchTrack(String songName, String artist) {
-        final String[] response = {null};
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    response[0] = runTest(UrlBuilder.buildUrlSearchTrack(songName, artist));
-                    // parse json
-                    JSONObject obj = new JSONObject(response[0]);
-                    Log.i(TAG, "run: " + obj.toString());
-                    String songName = obj.getJSONObject("track").getString("name");
-                    String songDuration = obj.getJSONObject("track").getString("duration");
-                    Log.i(TAG, "run: song anme " + songName);
-                    Log.i(TAG, "run: song duration " + songDuration);
-                    Log.i(TAG, "onNotificationPosted test Okhttp: " + response[0]);
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-    }
 
-    public Bundle getTrackInfo(String songName, String artist) throws InterruptedException {
-        final String[] response = {null};
-        Bundle bundle = new Bundle();
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    response[0] = runTest(UrlBuilder.buildUrlGetTrackInfo(songName, artist));
-                    // parse json
-                    JSONObject obj = new JSONObject(response[0]);
-                    Log.i(TAG, "getTrackInfo run: json " + obj.toString());
-
-                    String songName = obj.getJSONObject("track").getString("name");
-                    bundle.putString("song-name", songName);
-
-                    String songDuration = obj.getJSONObject("track").getString("duration");
-                    bundle.putString("song-duration", songDuration);
-
-                    String songUrl = obj.getJSONObject("track").getString("url");
-                    bundle.putString("song-url", songUrl);
-
-                    Log.i(TAG, "getTrackInfo run: bundle " + bundle.toString());
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-        thread.join();
-        Log.i(TAG, "getTrackInfo after thread: bundle " + bundle.toString());
-        return bundle;
-    }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
@@ -271,21 +200,18 @@ public class NotificationService extends NotificationListenerService {
         return test;
     }
 
-    private void addSong(String songName, String artist, String currentTime, String url) {
+    private void addSongToDB(String songName, String artist, String currentTime, String url) {
         // add song to scrobbling list
         Scrobble song = new Scrobble(songName, artist, currentTime, url);
         KeisicDatabase.getInstance(context).scrobbleDao().insert(song);
-        Log.i(TAG, "addSong: " + song.toString());
+        Log.i(TAG, "addSongToDB: " + song);
     }
 
-    private String runTest(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
+    private void addSongToFirbase(String songName, String artist, String currentTime, String url) {
+        // add song to scrobbling list
+        Scrobble song = new Scrobble(songName, artist, currentTime, url);
+        myRef.push().setValue(song);
+        Log.i(TAG, "addSongToFirbase: " + song);
     }
 
 }
