@@ -50,7 +50,7 @@ public class ChartViewModel extends ViewModel {
         return mText;
     }
 
-    public void setChartItemAdapter_Artists() throws InterruptedException {
+    public void setChartItemList_Artists() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter: ");
         listArtists = callApi.getTopArtist(period.getValue());
         ArrayList<ChartItem> chartItems = new ArrayList<>();
@@ -66,7 +66,7 @@ public class ChartViewModel extends ViewModel {
         return chartItemList_Artists;
     }
 
-    public void setChartItemAdapter_Tracks() throws InterruptedException {
+    public void setChartItemList_Tracks() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter_Tracks: start ");
         listTracks = callApi.getTopTracks(period.getValue());
         ArrayList<ChartItem> chartItems = new ArrayList<>();

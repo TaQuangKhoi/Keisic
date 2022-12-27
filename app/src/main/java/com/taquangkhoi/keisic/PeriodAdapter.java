@@ -95,6 +95,8 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
                 } else {
                     chartViewModel.setPeriod(periodsKey[position]);
                     chartViewModel.setChartItemList_Albums();
+                    chartViewModel.setChartItemList_Artists();
+                    chartViewModel.setChartItemList_Tracks();
                     Toast.makeText(context, chartViewModel.getPeriod().getValue(), Toast.LENGTH_SHORT).show();
                 }
             }

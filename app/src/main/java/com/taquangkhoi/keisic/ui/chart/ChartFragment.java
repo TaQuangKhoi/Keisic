@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.taquangkhoi.keisic.PeriodAdapter;
-import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.databinding.FragmentChartBinding;
 import com.taquangkhoi.keisic.lastfmwrapper.CallApi;
 import com.taquangkhoi.keisic.ui.data.ChartItemAdapter;
@@ -54,7 +51,7 @@ public class ChartFragment extends Fragment {
 
     public void addChartItemArtists() {
         try {
-            chartViewModel.setChartItemAdapter_Artists();
+            chartViewModel.setChartItemList_Artists();
             Log.i(TAG, "onCreateView: setChartItemAdapter_Artists ");
         } catch (InterruptedException e) {
             Log.i(TAG, "onCreateView: setChartItemAdapter_Artists failed " + e.getMessage());
@@ -74,7 +71,7 @@ public class ChartFragment extends Fragment {
 
     public void addChartItemTracks() {
         try {
-            chartViewModel.setChartItemAdapter_Tracks();
+            chartViewModel.setChartItemList_Tracks();
             Log.i(TAG, "onCreateView: setChartItemAdapter_Tracks");
         } catch (InterruptedException e) {
             Log.i(TAG, "onCreateView: setChartItemAdapter_Tracks failed " + e.getMessage());
