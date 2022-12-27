@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.taquangkhoi.keisic.lastfmwrapper.UrlBuilder;
 import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
@@ -42,12 +43,10 @@ public class NotificationService extends NotificationListenerService {
     static MyListener myListener;
     Song currentSong;
     private static final String userAgent = "Keisic";
-    private static final String lastFmApiKey = BuildConfig.LAST_FM_API_KEY;
     private static final String lastFmApiSecret = BuildConfig.LAST_FM_SHARED_SECRET;
     String[] appToScrobbling;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
-    String key = lastFmApiKey;      // api key
     String secret = lastFmApiSecret;   // api secret
     String user = "TaQuangKhoi";     // user name
     String password = "..."; // user's password
@@ -157,38 +156,6 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    public String buildUrlSearchTrack(String songName, @Nullable String artist) {
-        Log.i(TAG, "buildUrlSearchTrack: songInfo is " + songName + " - " + artist);
-        // turn string to url
-
-        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=track.search")
-                .buildUpon()
-                .appendQueryParameter("track", songName)
-                .appendQueryParameter("artist", artist != null ? artist.split(", ")[0] : "")
-                .appendQueryParameter("api_key", lastFmApiKey)
-                .appendQueryParameter("format", "json")
-                .build().toString();
-
-        Log.i(TAG, "buildUrlSearchTrack urlSearch: " + urlSearch);
-        return urlSearch;
-    }
-
-    public String buildUrlGetTrackInfo(String songName, @Nullable String artist) {
-        Log.i(TAG, "buildUrlGetTrackInfo: songInfo is " + songName + " - " + artist);
-        // turn string to url
-
-        String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=track.getInfo")
-                .buildUpon()
-                .appendQueryParameter("api_key", lastFmApiKey)
-                .appendQueryParameter("track", songName)
-                .appendQueryParameter("artist", artist != null ? artist.split(", ")[0] : "")
-                .appendQueryParameter("format", "json")
-                .build().toString();
-
-        Log.i(TAG, "buildUrlGetTrackInfo urlSearch: " + urlSearch);
-        return urlSearch;
-    }
-
     public void searchTrack(String songName, String artist) {
         final String[] response = {null};
         Thread thread = new Thread() {
@@ -196,7 +163,7 @@ public class NotificationService extends NotificationListenerService {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(buildUrlSearchTrack(songName, artist));
+                    response[0] = runTest(UrlBuilder.buildUrlSearchTrack(songName, artist));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "run: " + obj.toString());
@@ -221,7 +188,7 @@ public class NotificationService extends NotificationListenerService {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(buildUrlGetTrackInfo(songName, artist));
+                    response[0] = runTest(UrlBuilder.buildUrlGetTrackInfo(songName, artist));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "getTrackInfo run: json " + obj.toString());
