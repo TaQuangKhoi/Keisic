@@ -1,15 +1,20 @@
 package com.taquangkhoi.keisic.ui.data;
 
 import android.content.Context;
+import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import com.squareup.picasso.Picasso;
 import com.taquangkhoi.keisic.R;
 
 public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.ViewHolder> {
@@ -23,12 +28,14 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imgIcon;
         private TextView title;
         private TextView scrobbles;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvw_title_chart_item);
             scrobbles = itemView.findViewById(R.id.tvw_scrobble_chart_item);
+            imgIcon = itemView.findViewById(R.id.img_chart_item);
         }
 
         public TextView getTitle() {
@@ -41,6 +48,14 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
 
         public void setScrobbles(TextView scrobbles) {
             this.scrobbles = scrobbles;
+        }
+
+        public ImageView getImgIcon() {
+            return imgIcon;
+        }
+
+        public void setImgIcon(ImageView imgIcon) {
+            this.imgIcon = imgIcon;
         }
     }
 
@@ -60,6 +75,10 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChartItem item = mChartItems.get(position);
 
+        Log.i(TAG, "onBindViewHolder: " + item.getImageUrl());
+        if (item.getImageUrl() != null && !item.getImageUrl().equals("")) {
+            Picasso.get().load(item.getImageUrl()).into(holder.getImgIcon());
+        }
         holder.title.setText(item.getTitle());
         holder.scrobbles.setText(
                 String.valueOf(item.getPlaycount())

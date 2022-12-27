@@ -4,14 +4,16 @@ import androidx.annotation.Nullable;
 
 public class ChartItem {
     private int imageId;
+    private String imageUrl;
     private String title;
     private String artist;
     private long playcount;
 
-    public ChartItem(@Nullable int image, String title, long playcount) {
+    public ChartItem(@Nullable int image,String imageUrl, String title, long playcount) {
         if (image != 0) {
             this.imageId = image;
         }
+        this.imageUrl = imageUrl;
         this.title = title;
         this.playcount = playcount;
     }
@@ -46,5 +48,13 @@ public class ChartItem {
 
     public void setPlaycount(long playcount) {
         this.playcount = playcount;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

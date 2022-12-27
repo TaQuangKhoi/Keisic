@@ -5,17 +5,17 @@
     android:layout_margin="10dp">
 
     <ImageView
-        android:id="@+id/img_example"
+        android:id="@+id/img_chart_item"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/ko_dc_viet_hoa"
+        android:src="@drawable/compact_disc"
         android:background="@drawable/bogoc_img_example_in_custom_listivew_artists"/>
 
     <LinearLayout
         android:id="@+id/txt_example"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/img_example"
+        android:layout_below="@id/img_chart_item"
         android:orientation="vertical"
         android:padding="10dp"
         android:background="@drawable/background_bogoc_artists">

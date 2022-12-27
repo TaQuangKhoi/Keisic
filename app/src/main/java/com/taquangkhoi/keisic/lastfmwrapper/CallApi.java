@@ -218,10 +218,11 @@ public class CallApi {
 
                         String artistName = track.getString("name");
                         String artistPlaycount = track.getString("playcount");
+                        String artistImageUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
 
                         Log.i(TAG, "getTopArtist run: artist " + artistName + " playcount " + artistPlaycount);
 
-                        chartItemList.add(new ChartItem(0, artistName, Long.parseLong(artistPlaycount)));
+                        chartItemList.add(new ChartItem(0, artistImageUrl, artistName, Long.parseLong(artistPlaycount)));
                     }
                     Log.i(TAG, "getTopArtist run: chartItemList " + chartItemList.size());
                     Log.i(TAG, "getTopArtist run: json " + obj.toString());
@@ -236,7 +237,7 @@ public class CallApi {
         return chartItemList;
     }
 
-    public List<ChartItem> getTopTracks(String period) throws  InterruptedException {
+    public List<ChartItem> getTopTracks(String period) throws InterruptedException {
         Log.i(TAG, "getTopTracks: start");
         List<ChartItem> chartItemList = new ArrayList<>();
         final String[] response = {null};
@@ -259,10 +260,11 @@ public class CallApi {
                         String songName = track.getString("name");
                         String artistName = track.getJSONObject("artist").getString("name");
                         String songPlaycount = track.getString("playcount");
+                        String someImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
 
                         Log.i(TAG, "getTopTracks run: song " + songName + " artist " + artistName + " playcount " + songPlaycount);
 
-                        chartItemList.add(new ChartItem(1, songName, Long.parseLong(songPlaycount)));
+                        chartItemList.add(new ChartItem(1, someImgUrl, songName, Long.parseLong(songPlaycount)));
                     }
                     Log.i(TAG, "getTopTracks run: chartItemList " + chartItemList.size());
                     Log.i(TAG, "getTopTracks run: json " + obj.toString());
@@ -277,7 +279,7 @@ public class CallApi {
         return chartItemList;
     }
 
-    public List<ChartItem> getTopAlbums(String period) throws  InterruptedException {
+    public List<ChartItem> getTopAlbums(String period) throws InterruptedException {
         Log.i(TAG, "getTopAlbums");
         List<ChartItem> chartItemList = new ArrayList<>();
         final String[] response = {null};
@@ -300,10 +302,11 @@ public class CallApi {
                         String albumName = track.getString("name");
                         String artistName = track.getJSONObject("artist").getString("name");
                         String albumPlaycount = track.getString("playcount");
+                        String albumImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
 
                         Log.i(TAG, "getTopAlbums run: album " + albumName + " artist " + artistName + " playcount " + albumPlaycount);
 
-                        chartItemList.add(new ChartItem(2, albumName, Long.parseLong(albumPlaycount)));
+                        chartItemList.add(new ChartItem(2, albumImgUrl, albumName, Long.parseLong(albumPlaycount)));
                     }
                     Log.i(TAG, "getTopAlbums run: chartItemList " + chartItemList.size());
                     Log.i(TAG, "getTopAlbums run: json " + obj.toString());
