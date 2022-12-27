@@ -196,7 +196,7 @@ public class CallApi {
         return bundle;
     }
 
-    public List<ChartItem> getTopArtist() throws InterruptedException {
+    public List<ChartItem> getTopArtist(String period) throws InterruptedException {
         Log.i(TAG, "getTopArtist: start");
         List<ChartItem> chartItemList = new ArrayList<>();
         final String[] response = {null};
@@ -206,7 +206,7 @@ public class CallApi {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(UrlBuilder.buildGetTopArtists("TaQuangKhoi", "7day"));
+                    response[0] = runTest(UrlBuilder.buildGetTopArtists("TaQuangKhoi", period));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
                     Log.i(TAG, "getTopArtist run: json " + obj);

@@ -26,6 +26,8 @@ public class ChartViewModel extends ViewModel {
 
     CallApi callApi;
 
+    private String period = "7day";
+
     public ChartViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
@@ -47,7 +49,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemAdapter_Artists() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter: ");
-        listArtists = callApi.getTopArtist();
+        listArtists = callApi.getTopArtist(period);
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listArtists) {
             chartItems.add(chartItem);
@@ -63,7 +65,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemAdapter_Tracks() throws InterruptedException {
         Log.i(TAG, "setChartItemAdapter_Tracks: start ");
-        listTracks = callApi.getTopTracks("7day");
+        listTracks = callApi.getTopTracks(period);
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listTracks) {
             chartItems.add(chartItem);
@@ -83,7 +85,7 @@ public class ChartViewModel extends ViewModel {
 
     public void setChartItemList_Albums() throws InterruptedException {
         Log.i(TAG, "setChartItemList_Albums: start");
-        listAlbums = callApi.getTopAlbums("7day");
+        listAlbums = callApi.getTopAlbums(period);
         ArrayList<ChartItem> chartItems = new ArrayList<>();
         for (ChartItem chartItem : listAlbums) {
             chartItems.add(chartItem);

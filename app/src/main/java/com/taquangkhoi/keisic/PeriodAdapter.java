@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +22,14 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
         private TextView title;
+        private ItemClickListener itemClickListener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvw_title_period);
+            itemView.setOnClickListener(this);
         }
 
         public TextView getTitle() {
@@ -34,6 +38,23 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
 
         public void setTitle(TextView title) {
             this.title = title;
+        }
+
+        //Tạo setter cho biến itemClickListenenr
+        public void setItemClickListener(ItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(), false);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(), true);
+            return true;
         }
     }
 
@@ -54,6 +75,17 @@ public class PeriodAdapter extends RecyclerView.Adapter<PeriodAdapter.ViewHolder
         String[] periods = mPeriods;
 
         holder.title.setText(periods[position]);
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if (isLongClick) {
+                    //Do nothing
+                    Toast.makeText(context, "Long click", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Short click", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
