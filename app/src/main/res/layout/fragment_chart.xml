@@ -24,6 +24,7 @@
                 android:background="@drawable/bo_goc_continuous"
                 android:text="Continuous"
                 android:textAllCaps="false"
+                android:visibility="gone"
                 android:textColor="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView

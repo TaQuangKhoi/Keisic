@@ -10,6 +10,7 @@
         android:id="@+id/big_img_example"
         android:layout_width="match_parent"
         android:layout_height="320dp"
+        android:visibility="gone"
         android:src="@color/black" />
 
     <LinearLayout

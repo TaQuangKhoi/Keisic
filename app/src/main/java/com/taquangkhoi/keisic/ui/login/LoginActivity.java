@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.taquangkhoi.keisic.MainActivity;
@@ -171,6 +172,30 @@ public class LoginActivity extends AppCompatActivity {
                     break;
                 case REGISTER_MODE:
                     loadingProgressBar.setVisibility(View.VISIBLE);
+                    String email = usernameEditText.getText().toString();
+                    String password = passwordEditText.getText().toString();
+                    String confirmPassword = confirmPasswordEditText.getText().toString();
+                    if (password.equals(confirmPassword)) {
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(LoginActivity.this, task -> {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "createUserWithEmail:success");
+                                        user = mAuth.getCurrentUser();
+                                        signInDirectly(null, null, user.getEmail());
+                                        //updateUI(user);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        loadingProgressBar.setVisibility(View.GONE);
+                                        Snackbar.make(binding.getRoot(), task.getException().getMessage(), Snackbar.LENGTH_SHORT).show();
+                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                        //updateUI(null);
+                                    }
+                                });
+                    } else {
+                        loadingProgressBar.setVisibility(View.GONE);
+                        Snackbar.make(binding.getRoot(), "Password and Confirm Password must be the same", Snackbar.LENGTH_LONG).show();
+                    }
 
                     break;
             }
