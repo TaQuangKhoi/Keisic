@@ -28,6 +28,8 @@ public class HomeViewModel extends ViewModel {
 
     CallApi callApi;
 
+    int currentPage = 1;
+
     public HomeViewModel() {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
@@ -60,7 +62,7 @@ public class HomeViewModel extends ViewModel {
 
     public void setScrobbleAdapter(Context context) throws InterruptedException {
         Log.i(TAG, "setScrobbleAdapter: ");
-        list = callApi.getRecentTrack();
+        list = callApi.getRecentTrack("1");
         // turn List to ArrayList
         ArrayList<Scrobble> arrayList = new ArrayList<Scrobble>(list);
         arrayList.addAll(list);
@@ -72,8 +74,19 @@ public class HomeViewModel extends ViewModel {
 
     public void addScrobble(Scrobble scrobble, Context context) throws InterruptedException {
         Log.i(TAG, "addScrobble: " + scrobble.getName() + " " + scrobble.getArtist());
-        list = callApi.getRecentTrack();
+        list = callApi.getRecentTrack("1");
         ArrayList<Scrobble> arrayList = new ArrayList<>(list);
+
+        this.scrobblesList.setValue(arrayList);
+    }
+
+    public void loadMoreScrobble(Context context) throws InterruptedException {
+        Log.i(TAG, "loadMoreScrobble: ");
+        ++currentPage;
+        Log.i(TAG, "loadMoreScrobble: currentPage " + currentPage);
+        list.addAll(callApi.getRecentTrack(getCurrentPageString()));
+        ArrayList<Scrobble> arrayList = new ArrayList<>(list);
+        arrayList.addAll(list);
 
         this.scrobblesList.setValue(arrayList);
     }
@@ -100,5 +113,17 @@ public class HomeViewModel extends ViewModel {
 
     public List<Scrobble> getSongsFromDB(Context context) {
         return KeisicDatabase.getInstance(context).scrobbleDao().getAll();
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public String getCurrentPageString() {
+        return String.valueOf(currentPage);
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }

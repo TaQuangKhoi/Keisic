@@ -105,7 +105,7 @@ public class CallApi {
         return bundle;
     }
 
-    public List<Scrobble> getRecentTrack() throws InterruptedException {
+    public List<Scrobble> getRecentTrack(String page) throws InterruptedException {
         Log.i(TAG, "getRecentTrack: start");
         List<Scrobble> chartItemList = new ArrayList<>();
         final String[] response = {null};
@@ -115,7 +115,7 @@ public class CallApi {
             public void run() {
                 super.run();
                 try {
-                    response[0] = runTest(UrlBuilder.buildGetRecentTracks());
+                    response[0] = runTest(UrlBuilder.buildGetRecentTracks(page));
                     // parse json
                     JSONObject obj = new JSONObject(response[0]);
 

@@ -45,11 +45,12 @@ public class UrlBuilder {
         return urlSearch;
     }
 
-    public static String buildGetRecentTracks() {
+    public static String buildGetRecentTracks(String page) {
         String urlSearch = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks")
                 .buildUpon()
                 .appendQueryParameter("api_key", lastFmApiKey)
                 .appendQueryParameter("user", "taquangkhoi")
+                .appendQueryParameter("page", page)
                 .appendQueryParameter("format", "json")
                 .build().toString();
 

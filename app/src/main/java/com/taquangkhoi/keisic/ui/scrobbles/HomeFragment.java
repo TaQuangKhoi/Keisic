@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -77,6 +78,30 @@ public class HomeFragment extends Fragment implements MyListener {
                 e.printStackTrace();
             }
             return false;
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    Log.i(TAG, "onScrollStateChanged: " + listView.getLastVisiblePosition());
+                    if (listView.getLastVisiblePosition() == listView.getCount() - 1) {
+                        Log.i(TAG, "onScrollStateChanged: end " + listView.getLastVisiblePosition());
+                        try {
+                            Log.i(TAG, "onScrollStateChanged: " + homeViewModel.getScrobbles().getValue().size());
+                            homeViewModel.loadMoreScrobble(getContext());
+                            listView.smoothScrollToPosition(listView.getCount() - 1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
         });
 
         return root;
