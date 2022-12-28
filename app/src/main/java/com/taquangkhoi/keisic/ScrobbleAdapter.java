@@ -71,10 +71,10 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
             //turn time to minute and second
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffHours = (diff / (60 * 60 * 1000) % 24) - 7;
             long diffDays = diff / (24 * 60 * 60 * 1000);
 
-            Log.i(TAG, "getMinuteAndSecond: " + diffDays + " " + diffHours + " " + diffMinutes + " " + diffSeconds);
+            Log.i(TAG, "getMinuteAndSecond: diffDays " + diffDays + " diffHours " + diffHours + " diffMinutes " + diffMinutes + " diffSeconds " + diffSeconds);
             if (diffDays > 0) {
                 return diffDays + " ngày trước";
             } else if (diffHours > 0) {

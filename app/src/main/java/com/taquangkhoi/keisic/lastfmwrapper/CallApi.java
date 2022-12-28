@@ -354,4 +354,51 @@ public class CallApi {
     public void setTotalTopAlbums(int totalTopAlbums) {
         this.totalTopAlbums = totalTopAlbums;
     }
+
+    public List<Scrobble> getLovedTrack() {
+        Log.i(TAG, "getLovedTrack: start");
+        List<Scrobble> scrobbleList = new ArrayList<>();
+        final String[] response = {null};
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    response[0] = runTest(UrlBuilder.buildGetLovedTracks("TaQuangKhoi"));
+                    // parse json
+                    JSONObject obj = new JSONObject(response[0]);
+                    Log.i(TAG, "getLovedTrack run: json " + obj);
+
+                    JSONArray trackArray = obj.getJSONObject("lovedtracks").getJSONArray("track");
+                    for (int i = 0; i < trackArray.length(); i++) {
+                        JSONObject track = trackArray.getJSONObject(i);
+                        Log.i(TAG, "getLovedTrack run: track " + track.toString());
+
+                        String songName = track.getString("name");
+                        String artistName = track.getJSONObject("artist").getString("name");
+                        String songPlaycount = track.getString("playcount");
+                        String someImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
+
+
+                        Log.i(TAG, "getLovedTrack run: song " + songName + " artist " + artistName + " playcount " + songPlaycount);
+
+                        scrobbleList.add(new Scrobble(songName, artistName, someImgUrl, songPlaycount));
+                    }
+                    Log.i(TAG, "getLovedTrack run: scrobbleList " + scrobbleList.size());
+                    Log.i(TAG, "getLovedTrack run: json " + obj.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return scrobbleList;
+    }
 }

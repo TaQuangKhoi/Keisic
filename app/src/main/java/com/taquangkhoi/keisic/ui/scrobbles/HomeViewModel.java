@@ -35,7 +35,6 @@ public class HomeViewModel extends ViewModel {
         scrobblesList = new MutableLiveData<>();
         callApi = new CallApi();
 
-
         myNotifications.add(new MyNotification("1", "1", "1"));
         myNotifications.add(new MyNotification("2", "2", "2"));
         mText.setValue("This is home fragment " + count.getValue());

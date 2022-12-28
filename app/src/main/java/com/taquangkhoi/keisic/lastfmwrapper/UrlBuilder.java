@@ -130,4 +130,18 @@ public class UrlBuilder {
         Log.i(TAG, "buildGetTopAlbums urlTopAlbums: " + urlTopAlbums);
         return urlTopAlbums;
     }
+
+    public static String buildGetLovedTracks(String username) {
+        Log.i(TAG, "buildGetLovedTracks: username is" + username);
+        String urlLovedTracks = Uri.parse("https://ws.audioscrobbler.com/2.0/?method=user.getlovedtracks")
+                .buildUpon()
+                .appendQueryParameter("api_key", lastFmApiKey)
+                .appendQueryParameter("user", username)
+                .appendQueryParameter("format", "json")
+                .build()
+                .toString();
+
+        Log.i(TAG, "buildGetLovedTracks urlLovedTracks: " + urlLovedTracks);
+        return urlLovedTracks;
+    }
 }

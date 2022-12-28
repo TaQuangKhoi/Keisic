@@ -31,6 +31,7 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
         private ImageView imgIcon;
         private TextView title;
         private TextView scrobbles;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvw_title_chart_item);
@@ -84,7 +85,6 @@ public class ChartItemAdapter extends RecyclerView.Adapter<ChartItemAdapter.View
                 String.valueOf(item.getPlaycount())
         );
     }
-
 
     @Override
     public int getItemCount() {
