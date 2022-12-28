@@ -93,7 +93,6 @@ fun MessageCard(msg: Message) {
             }
         }
     }
-
 }
 
 @Composable

@@ -14,13 +14,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
-import com.taquangkhoi.keisic.databinding.FragmentGalleryBinding;
+import com.taquangkhoi.keisic.databinding.FragmentLovedBinding;
 
 public class GalleryFragment extends Fragment {
 
     private static final String TAG = "GalleryFragment";
 
-    private FragmentGalleryBinding binding;
+    private FragmentLovedBinding binding;
     ListView listView;
     GalleryViewModel galleryViewModel;
 
@@ -31,7 +31,7 @@ public class GalleryFragment extends Fragment {
         galleryViewModel =
                 new ViewModelProvider(this).get(GalleryViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentLovedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         listView = binding.listView;
 
