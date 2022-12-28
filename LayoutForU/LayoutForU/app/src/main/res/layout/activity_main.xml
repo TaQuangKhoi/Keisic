@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.loved.GalleryFragment">
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/big_img_example"
@@ -40,4 +40,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/line_heart_1" />
+
 </RelativeLayout>
