@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         user = mAuth.getCurrentUser();
         if (user != null) {
-            signInDirectly(user.getDisplayName(), user.getUid(), null);
+            signInDirectly(user.getDisplayName(), user.getUid(), user.getEmail());
             Log.i("LoginActivity", "User is signed in");
             //reload();
         }
@@ -240,6 +240,7 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("email", email);
         }
         startActivity(intent);
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

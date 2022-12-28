@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MyListener {
     private NotificationReceiver nReceiver;
     NotificationCompat.Builder builder;
     FirebaseAuth mAuth;
-    private TextView tvwEmail;
+    private TextView tvwEmail, tvwUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        tvwEmail = findViewById(R.id.tvw_user_email);
 
         setSupportActionBar(binding.appBarMain.toolbar); // binding với app_bar_main.xml
         mAuth = FirebaseAuth.getInstance();
@@ -67,11 +65,6 @@ public class MainActivity extends AppCompatActivity implements MyListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction("Msg");
         registerReceiver(nReceiver, filter);
-
-        // get data from Login intent to show email
-        Intent intentFromPreviousActivity = getIntent();
-        String emailFromIntent = intentFromPreviousActivity.getStringExtra("email");
-        //tvwEmail.setText(emailFromIntent);
 
         //request notification permission
         createNotificationChannel();
@@ -92,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements MyListener {
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        View header = navigationView.getHeaderView(0);
+        tvwEmail = header.findViewById(R.id.tvw_user_email);
+        tvwUsername = header.findViewById(R.id.tvw_username);
+
+        // get data from Login intent to show email
+        Intent intentFromPreviousActivity = getIntent();
+        String emailFromIntent = intentFromPreviousActivity.getStringExtra("email");
+        Log.i(TAG, "onCreate: emailFromIntent " + emailFromIntent);
+        if (emailFromIntent != null) {
+            tvwEmail.setText(emailFromIntent);
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
