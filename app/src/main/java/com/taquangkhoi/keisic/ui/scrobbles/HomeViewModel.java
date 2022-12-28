@@ -60,7 +60,7 @@ public class HomeViewModel extends ViewModel {
         this.count.setValue(count);
     }
 
-    public void setScrobbleAdapter(Context context) throws InterruptedException {
+    public void setScrobbleList(Context context) throws InterruptedException {
         Log.i(TAG, "setScrobbleAdapter: ");
         list = callApi.getRecentTrack("1");
         // turn List to ArrayList

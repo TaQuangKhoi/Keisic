@@ -377,13 +377,13 @@ public class CallApi {
 
                         String songName = track.getString("name");
                         String artistName = track.getJSONObject("artist").getString("name");
-                        String songPlaycount = track.getString("playcount");
+                        //String songPlaycount = track.getString("playcount");
                         String someImgUrl = track.getJSONArray("image").getJSONObject(2).getString("#text");
 
 
-                        Log.i(TAG, "getLovedTrack run: song " + songName + " artist " + artistName + " playcount " + songPlaycount);
+                        Log.i(TAG, "getLovedTrack run: song " + songName + " artist " + artistName + " playcount " /*+ songPlaycount*/);
 
-                        scrobbleList.add(new Scrobble(songName, artistName, someImgUrl, songPlaycount));
+                        scrobbleList.add(new Scrobble(songName, artistName, someImgUrl, "songPlaycount"));
                     }
                     Log.i(TAG, "getLovedTrack run: scrobbleList " + scrobbleList.size());
                     Log.i(TAG, "getLovedTrack run: json " + obj.toString());

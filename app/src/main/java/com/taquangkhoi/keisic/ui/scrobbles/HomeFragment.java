@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,7 +53,7 @@ public class HomeFragment extends Fragment implements MyListener {
         callApi = new CallApi();
 
         try {
-            homeViewModel.setScrobbleAdapter(getContext());
+            homeViewModel.setScrobbleList(getContext());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

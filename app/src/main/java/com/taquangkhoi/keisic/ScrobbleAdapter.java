@@ -40,15 +40,39 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
         TextView tvArtist = customView.findViewById(R.id.tvw_detail_item);
         TextView tvTime = customView.findViewById(R.id.tvw_time_item);
 
+        // Ánh xạ cho GalleryFragment
+        ImageView imageViewGF = customView.findViewById(R.id.ivwSongArt);
+        TextView tvNameSongGF = customView.findViewById(R.id.txtName);
+        TextView tvArtistGF = customView.findViewById(R.id.txtArtist);
+        TextView tvTimeGF = customView.findViewById(R.id.txtTime);
+
         Scrobble song = getItem(position); // Lấy đối tượng
 
         // Lấy dữ liệu từ phần tử với position trong mảng đưa vào từng View
         if (song.getImageId() != 0) {
             imageView.setImageResource(song.getImageId());
         }
-        tvNameSong.setText(song.getName());
-        tvArtist.setText(song.getArtist());
-        tvTime.setText(getMinuteAndSecond(song.getListenTime()));
+        try {
+            tvNameSong.setText(song.getName());
+            tvArtist.setText(song.getArtist());
+            tvTime.setText(getMinuteAndSecond(song.getListenTime()));
+        } catch (Exception e) {
+            Log.i(TAG, "getView: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            if (song.getImageId() != 0) {
+                imageViewGF.setImageResource(song.getImageId());
+            }
+            tvNameSongGF.setText(song.getName());
+            tvArtistGF.setText(song.getArtist());
+            tvTimeGF.setText(getMinuteAndSecond(song.getListenTime()));
+        } catch (Exception e) {
+            Log.i(TAG, "getView: " + e.getMessage());
+            e.printStackTrace();
+        }
+
 
         return customView;
     }
@@ -57,7 +81,7 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
     private String getMinuteAndSecond(String time) {
         //turn String to time
         try {
-            String oldPartten  = "yyyy-MM-dd HH:mm:ss.SSS";
+            String oldPartten = "yyyy-MM-dd HH:mm:ss.SSS";
             String newPartten = "dd MMM yyyy, HH:mm";
             SimpleDateFormat dateFormat = new SimpleDateFormat(newPartten);
             Date parsedDate = dateFormat.parse(time);
@@ -86,7 +110,7 @@ public class ScrobbleAdapter extends ArrayAdapter<Scrobble> {
             } else {
                 return "Vừa xong";
             }
-        } catch(Exception e) { //this generic but you can control another types of exception
+        } catch (Exception e) { //this generic but you can control another types of exception
             Log.i(TAG, "getMinuteAndSecond Error: " + e.getMessage());
             // look the origin of excption
         }

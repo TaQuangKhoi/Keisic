@@ -39,12 +39,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Kính Cận"
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/txtArtist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hÀo"
