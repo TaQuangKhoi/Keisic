@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.ui.data.ChartItem;
-import com.taquangkhoi.keisic.ui.scrobbles.HomeViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

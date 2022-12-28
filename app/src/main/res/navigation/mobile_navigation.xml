@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_scrobbles"
-        android:name="com.taquangkhoi.keisic.ui.scrobbles.HomeFragment"
+        android:name="com.taquangkhoi.keisic.ui.scrobbles.ScrobblesFragment"
         android:label="@string/menu_scrobbles"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_loved"
-        android:name="com.taquangkhoi.keisic.ui.loved.GalleryFragment"
+        android:name="com.taquangkhoi.keisic.ui.loved.LovedFragment"
         android:label="@string/menu_loved"
         tools:layout="@layout/fragment_loved" />
 

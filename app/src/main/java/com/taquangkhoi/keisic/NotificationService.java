@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,14 +16,14 @@ import com.taquangkhoi.keisic.myroom.KeisicDatabase;
 import com.taquangkhoi.keisic.myroom.Scrobble;
 import com.taquangkhoi.keisic.myroom.Song;
 import com.taquangkhoi.keisic.services.MyListener;
-import com.taquangkhoi.keisic.ui.scrobbles.HomeViewModel;
+import com.taquangkhoi.keisic.ui.scrobbles.ScrobblesViewModel;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class NotificationService extends NotificationListenerService {
     Context context;
-    HomeViewModel homeViewModel;
+    ScrobblesViewModel homeViewModel;
     private static final String TAG = "NotificationService";
     static MyListener myListener;
     Song currentSong;
@@ -43,7 +42,7 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
         context = getApplicationContext();
 
-        homeViewModel = new HomeViewModel();
+        homeViewModel = new ScrobblesViewModel();
         Log.i(TAG, "onCreate : Notification Service Created");
 
         currentSong = new Song();

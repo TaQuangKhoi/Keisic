@@ -15,7 +15,7 @@ import com.taquangkhoi.keisic.notification.MyNotification;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class ScrobblesViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
     private ArrayList<MyNotification> myNotifications;
@@ -30,7 +30,7 @@ public class HomeViewModel extends ViewModel {
 
     int currentPage = 1;
 
-    public HomeViewModel() {
+    public ScrobblesViewModel() {
         mText = new MutableLiveData<>();
         count = new MutableLiveData<>();
         myNotifications = new ArrayList<>();

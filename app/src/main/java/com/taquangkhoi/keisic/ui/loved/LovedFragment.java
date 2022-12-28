@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,20 +15,20 @@ import com.taquangkhoi.keisic.R;
 import com.taquangkhoi.keisic.ScrobbleAdapter;
 import com.taquangkhoi.keisic.databinding.FragmentLovedBinding;
 
-public class GalleryFragment extends Fragment {
+public class LovedFragment extends Fragment {
 
     private static final String TAG = "GalleryFragment";
 
     private FragmentLovedBinding binding;
     ListView listView;
-    GalleryViewModel galleryViewModel;
+    LovedViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: ");
 
         galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+                new ViewModelProvider(this).get(LovedViewModel.class);
 
         binding = FragmentLovedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

@@ -12,7 +12,7 @@ import com.taquangkhoi.keisic.myroom.Scrobble;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GalleryViewModel extends ViewModel {
+public class LovedViewModel extends ViewModel {
 
     private static final String TAG = "GalleryViewModel";
     CallApi callApi;
@@ -21,7 +21,7 @@ public class GalleryViewModel extends ViewModel {
     public MutableLiveData<ArrayList<Scrobble>> scrobblesLovedList;
     List<Scrobble> list;
 
-    public GalleryViewModel() {
+    public LovedViewModel() {
         callApi = new CallApi();
 
         mText = new MutableLiveData<>();

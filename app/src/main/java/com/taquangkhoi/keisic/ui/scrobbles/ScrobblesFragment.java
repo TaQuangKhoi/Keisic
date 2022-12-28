@@ -27,12 +27,12 @@ import com.taquangkhoi.keisic.services.MyListener;
 
 import java.util.TimerTask;
 
-public class HomeFragment extends Fragment implements MyListener {
+public class ScrobblesFragment extends Fragment implements MyListener {
 
     private FragmentHomeBinding binding;
 
     private ListView listView;
-    HomeViewModel homeViewModel;
+    ScrobblesViewModel homeViewModel;
 
     private NotificationReceiver nReceiver;
 
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment implements MyListener {
                              ViewGroup container, Bundle savedInstanceState) {
         // Lấy ViewModel từ HomeViewModel
         homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+                new ViewModelProvider(this).get(ScrobblesViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
